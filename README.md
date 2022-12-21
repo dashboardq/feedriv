@@ -6,7 +6,7 @@ An open source, MIT licensed feed reader built with a custom PHP MVC backend fra
 FeedRiv is created by [Anthony Graddy](https://www.agraddy.com) as a part of the [12 Startups in 12 Months (Open Source Edition) challenge](https://www.agraddy.com/12-startups-in-12-months-open-source-edition). This is the 3rd startup of the challenge.
 
 ## What
-FeedRiv is currently in development. You can follow along on the [FeedRiv Blog](https://www.feedriv/blog) and on my [Anthony Graddy Twitter account](https://twitter.com/agraddy).
+FeedRiv is currently in development. You can follow along on the [FeedRiv Blog](https://www.feedriv.com/blog) and on my [Anthony Graddy Twitter account](https://twitter.com/agraddy).
 
 ## Other DashboardQ Projects
 1\. [NumbersQ](https://www.numbersq.com/)  
