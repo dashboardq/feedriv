@@ -1,0 +1,7 @@
+.env.php
+.keys.php
+.plug.php
+vendor
+storage/markdown/blog/*
+!storage/markdown/blog/2022-12-13_getting-started.md
+!storage/markdown/blog/_2022-12-13_draft-example.md

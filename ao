@@ -1,0 +1,10 @@
+#!/usr/bin/env php
+<?php
+
+define('AO_CONSOLE_START', microtime(true));
+
+require __DIR__.'/mavoc/console/Main.php';
+
+$ao = new mavoc\console\Main();
+$ao->init();
+
