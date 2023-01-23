@@ -20,8 +20,8 @@
         </header>
         <div class="notice error">
             <div class="box">
-                <p>FeedRiv is an RSS Feed Reader being built as part of the <a href="https://www.agraddy.com/12-startups-in-12-months-open-source-edition">12 Startups in 12 Months (Open Source Edition)</a> challenge.</p>
                 <p>FeedRiv is currently in development and being built in public. This site is the latest version of the development process. Feel free to test any and all features you see.</p>
+                <p>FeedRiv is an RSS Feed Reader being built as part of the <a href="https://www.agraddy.com/12-startups-in-12-months-open-source-edition">12 Startups in 12 Months (Open Source Edition)</a> challenge.</p>
                 <p>You can stay updated on the progress by visiting the <a href="https://feedriv.com/blog">FeedRiv Blog</a>, checking out the code on the <a href="https://github.com/dashboardq/feedriv">FeedRiv Github Repo</a>, and following my <a href="https://twiter.com/agraddy">Anthony Graddy Twitter account</a>.</p>
                 <p><strong>Note that due to heavy development, this site could break or lose data at anytime.</strong></p>
             </div>

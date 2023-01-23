@@ -103,6 +103,50 @@ class HTML {
         echo $output;
     }
 
+    public function _color($label, $name = '', $value = '', $class = '', $extra = '') {
+        if(!$name) {
+            $name = underscorify($label);
+        }
+
+        if(isset($this->session->flash['fields'][$name])) {
+            $value = $this->session->flash['fields'][$name];
+        } elseif(isset($this->res->fields[$name])) {
+            $value = $this->res->fields[$name];
+        }
+
+        $error = false;
+        if(isset($this->session->flash['error'][$name])) {
+            $error = true;
+        }
+
+        $output = '';
+        if($error) {
+            $output .= '<div class="field -error">';
+        } else {
+            $output .= '<div class="field">';
+        }
+        $output .= "\n";
+        $output .= '<label>' . _esc($label) . '</label>';
+        $output .= "\n";
+        $output .= '<input type="color" name="' . _esc($name) . '" value="' . _esc($value) . '" placeholder="' . _esc($label) . '" ';
+        $output .= 'class="' . $class . '" ';
+        // Be careful with $extra values - they are not escaped.
+        // Do not use untrusted data.
+        if($extra) {
+            $output .= $extra;
+        }
+        $output .= ' /> ';
+        $output .= "\n";
+        $output .= '</div>';
+        $output .= "\n";
+
+        return $output;
+    }
+    public function color($label, $name = '', $value = '', $class = '', $extra = '') {
+        $output = $this->_color($label, $name, $value, $class, $extra);
+        echo $output;
+    }
+
     public function _delete($action, $value = '', $class = '', $warning = '') {
         if($value == '') {
             $value = 'Delete';
@@ -170,6 +214,39 @@ class HTML {
 
     public function messages() {
         $output = $this->_messages();
+        echo $output;
+    }
+
+    public function _option($name, $label, $value = null) {
+        if($value === null) {
+            $value = $label;
+        }
+
+        $selected = '';
+        if(
+            isset($this->session->flash['fields'][$name]) 
+            && $value == $this->session->flash['fields'][$name]
+        ) {
+            $selected = 'selected ';
+        } elseif(
+            isset($this->res->fields[$name])
+            && $value == $this->res->fields[$name]
+        ) {
+            $selected = 'selected ';
+        }
+
+        $output = '';
+        $output .= '<option value="' . _esc($value) . '" ';
+        $output .= $selected;
+        $output .= '> ';
+        $output .= _esc($label);
+        $output .= '</option>';
+        $output .= "\n";
+
+        return $output;
+    }
+    public function option($name, $label, $value = '') {
+        $output = $this->_option($name, $label, $value);
         echo $output;
     }
 
@@ -273,6 +350,67 @@ class HTML {
     }
     public function radios($label, $name = '', $data = []) {
         $output = $this->_radios($label, $name, $data);
+        echo $output;
+    }
+
+    public function _select($label, $name = '', $data = []) {
+        if(is_array($name)) {
+            $data = $name;
+            $name = '';
+        }
+        if(!$name) {
+            $name = underscorify($label);
+        }
+
+        if(isset($this->session->flash['fields'][$name])) {
+            $value = $this->session->flash['fields'][$name];
+        } elseif(isset($this->res->fields[$name])) {
+            $value = $this->res->fields[$name];
+        }
+
+        $error = false;
+        if(isset($this->session->flash['error'][$name])) {
+            $error = true;
+        }
+
+        $output = '';
+        // Don't show label, errors, or div if there is no label
+        if($label) {
+            if($error) {
+                $output .= '<div class="field -error">';
+            } else {
+                $output .= '<div class="field">';
+            }
+            $output .= "\n";
+
+            $output .= '<label>' . _esc($label) . '</label>';
+            $output .= "\n";
+        }
+
+        $output .= '<select name="' . _esc($name) . '">';
+        $output .= "\n";
+
+        foreach($data as $item) {
+            if(isset($item['label'])) {
+                $output .= $this->_option($name, $item['label'], $item['value'] ?? '');
+            } else {
+                $output .= $this->_option($name, $item, $item);
+            }
+        }
+
+        $output .= '</select>';
+        $output .= "\n";
+
+        if($label) {
+            $output .= '</div>';
+            $output .= "\n";
+        }
+
+
+        return $output;
+    }
+    public function select($label, $name = '', $data = []) {
+        $output = $this->_select($label, $name, $data);
         echo $output;
     }
 

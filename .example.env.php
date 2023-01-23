@@ -41,6 +41,9 @@ return [
     'APP_PRIVATE_HOME' => '/account',
     'APP_PUBLIC_HOME' => '/login',
 
+    'APP_ANALYTICS' => '<script></script>', 
+
+    // Access draft like this: /blog/draft-slug?draft=KEY_ENTERED_BELOW
     'APP_BLOG_DRAFT_KEY' => 'ENTER_A_SECRET_VALUE_TO_VIEW_DRAFTS', 
 
     'APP_KEYS' => $keys, 

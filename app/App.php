@@ -21,6 +21,7 @@ class App {
         ao()->filter('app_html_head_title', [$this, 'htmlTitle']);
 
         ao()->filter('helper_wordify_output', [$this, 'wordify']);
+
     }
 
     public function cacheDate($vars, $view) {
@@ -68,6 +69,7 @@ class App {
         return $title;
     }
 
+    // Uppercase the title
     public function wordify($input) {
         $output = str_replace('Feedriv', 'FeedRiv', $input);
         return $output;
