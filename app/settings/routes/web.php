@@ -32,6 +32,23 @@ Route::get('content/tag-edit', ['ContentController', 'tagEdit']);
 Route::get('content/word-add', ['ContentController', 'wordAdd']);
 Route::get('content/word-edit', ['ContentController', 'wordEdit']);
 
+// Design pages used for development and listed in the blog.
+Route::get('design/categories', ['DesignController', 'categories']);
+Route::get('design/category-edit', ['DesignController', 'categoryEdit']);
+Route::get('design/category-add', ['DesignController', 'categoryAdd']);
+Route::get('design/color-edit', ['DesignController', 'colorEdit']);
+Route::get('design/default-tag-add', ['DesignController', 'defaultTagAdd']);
+Route::get('design/default-tag-edit', ['DesignController', 'defaultTagEdit']);
+Route::get('design/default-color-edit', ['DesignController', 'defaultColorEdit']);
+Route::get('design/feed-add', ['DesignController', 'feedAdd']);
+Route::get('design/feed-edit', ['DesignController', 'feedEdit']);
+Route::get('design/feed', ['DesignController', 'feed']);
+Route::get('design/settings', ['DesignController', 'settings']);
+Route::get('design/tag-add', ['DesignController', 'tagAdd']);
+Route::get('design/tag-edit', ['DesignController', 'tagEdit']);
+Route::get('design/word-add', ['DesignController', 'wordAdd']);
+Route::get('design/word-edit', ['DesignController', 'wordEdit']);
+
 // Private
 Route::get('account', ['AuthController', 'account'], 'private');
 Route::post('account', ['AuthController', 'accountPost'], 'private');

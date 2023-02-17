@@ -238,6 +238,18 @@ if(!function_exists('uri')) {
 if(!function_exists('wordify')) {
     function wordify($input) {
         $words = preg_replace('/[\s,-_]+/', ' ', strtolower($input));
+
+        // Uppercase any abbreviations
+        // Acronyms won't have any vowels (some may but this is just a rough working example for now) 
+        $parts = explode(' ', $words);
+        foreach($parts as $i => $part) {
+            // If the word does not have a vowel or "y", it is probably an acronym.
+            if(!preg_match('/[AEIOUYaeiouy]+/', $part)) {
+                $parts[$i] = strtoupper($part);
+            }
+        }
+        $words = implode(' ', $parts);
+
         $words = ucwords($words);
         $output = $words;
         $output = ao()->hook('helper_wordify_output', $words);

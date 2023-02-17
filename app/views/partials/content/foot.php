@@ -28,8 +28,8 @@
         <form id="logout" action="/logout" method="POST" class="hidden"></form>
         <?php endif; ?>
 
-        <script src="/mavoc/js/ao.js?cache-date=<?php esc($cache_date); ?>"></script>
-        <script src="/mavoc/js/_ao.js?cache-date=<?php esc($cache_date); ?>"></script>
-        <script src="/assets/js/main.js?cache-date=<?php esc($cache_date); ?>"></script>
+        <script src="/assets/js/content/ao.js?cache-date=<?php esc($cache_date); ?>"></script>
+        <script src="/assets/js/content/_ao.js?cache-date=<?php esc($cache_date); ?>"></script>
+        <script src="/assets/js/content.js?cache-date=<?php esc($cache_date); ?>"></script>
 
         <?php echo ao()->env('APP_ANALYTICS'); ?>

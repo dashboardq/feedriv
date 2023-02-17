@@ -25,7 +25,14 @@ class App {
     }
 
     public function cacheDate($vars, $view) {
-        if($view == 'head' || $view == 'foot') {
+        if(
+            $view == 'head' 
+            || $view == 'foot'
+            || $view == 'content/head'
+            || $view == 'content/foot'
+            || $view == 'design/head'
+            || $view == 'design/foot'
+        ) {
             $vars['cache_date'] = '2022-07-15';
         }
 

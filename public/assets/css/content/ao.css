@@ -125,7 +125,6 @@ button,
 
     display: inline-block;
     padding: 12px 24px;
-    padding: 8px 24px;
     font-size: 1rem;
     background: #008000;
     color: #ffffff;
@@ -211,20 +210,6 @@ textarea {
 }
 /* EOF Notices */
 
-/* There should really be a browser standard for screen reader only content: 
- * https://github.com/h5bp/main.css/issues/12
- */   
-.sr { 
-    position: absolute;        
-    margin: 0;
-    padding: 0;                
-    width: 1px;
-    height: 1px;
-    overflow: hidden;          
-    border: 0;
-    white-space: nowrap;
-    clip-path: inset(50%);     
-} 
 
 .overlay {
     display: none;
