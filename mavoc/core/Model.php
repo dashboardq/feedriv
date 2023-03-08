@@ -3,6 +3,7 @@
 namespace mavoc\core;
 
 use DateTime;
+use DateTimeZone;
 
 class Model {
     public $data = [];
@@ -29,17 +30,59 @@ class Model {
         $this->tbl = $class::$table;
         if(isset($class::$columns)) {
             $this->clmns = $class::$columns;
+        } else {
+            // Load columns automatically
+            $columns = ao()->db->query('SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = ? AND TABLE_NAME = ?', ao()->env('DB_NAME'), $this->tbl);
+            $this->clmns = [];
+            foreach($columns as $column) {
+                $this->clmns[] = $column['COLUMN_NAME'];
+            }
         }
 
+        if(
+            ao()->hook('ao_model_process', true)
+            && ao()->hook('ao_model_process_' . $this->tbl, true)
+        ) {
+            $this->data = $this->process($this->data);
+        }
+        if(
+            ao()->hook('ao_model_process_dates', true)
+            && ao()->hook('ao_model_process_dates_' . $this->tbl, true)
+        ) {
+            $this->data = $this->processDates($this->data);
+        }
         $this->data = ao()->hook('ao_model_process_data', $this->data);
-        $this->data = ao()->hook('ao_model_process_' . $this->tbl . '_data', $this->data);
+        $this->data = ao()->hook('ao_model_process_data_' . $this->tbl, $this->data);
 
         $this->id = ao()->hook('ao_model_process_id', $this->id);
-        $this->id = ao()->hook('ao_model_process_' . $this->tbl . '_id', $this->id);
+        $this->id = ao()->hook('ao_model_process_id_' . $this->tbl, $this->id);
     }   
 
     public function init() {
     }
+
+    public function process($data) {
+        return $data;
+    }
+
+    public function processDates($data) {
+        $utc = new DateTimeZone('UTC');
+
+        foreach($data as $key => $value) {
+            if(substr($value, -3) == '_at') {
+                $data[$key] = new DateTime($value, $utc);
+            }
+        }
+
+        return $data;
+    }
+
+    /*
+    public function processCent($data) {
+    }
+    public function processInt($data) {
+    }
+     */
 
     public static function all($return_type = 'all') {
         $class = get_called_class();

@@ -1,5 +1,5 @@
 
-            <div id="sidebar_right">
+            <div id="sidebar_right" class="sidebars">
                 <div class="tags">
                     <h3>Tags</h3>
                     <ul>
@@ -27,10 +27,10 @@
                         <li><a href="#">Rated 1-2</a> (3)</li>
                     </ul>
                 </div>
-                <div class="clear">
-                    <h3>Cleared Items</h3>
+                <div class="archive">
+                    <h3>Archived Items</h3>
                     <ul>
-                        <li><a href="#">Cleared Items</a> (1,234)</li>
+                        <li><a href="#">Archived Items</a> (1,234)</li>
                     </ul>
                 </div>
             </div>

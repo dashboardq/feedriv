@@ -57,6 +57,91 @@ Route::post('change-password', ['AuthController', 'changePasswordPost'], 'privat
 Route::post('logout', ['AuthController', 'logout'], 'private');
 
 
+
+Route::post('ajax/category-sort', ['AjaxController', 'categorySort'], 'private');
+Route::post('ajax/feed-sort/{category_id}', ['AjaxController', 'feedSort'], 'private');
+Route::post('ajax/toggle/{category_id}', ['AjaxController', 'toggle'], 'private');
+
+Route::post('ajax/archive', ['AjaxController', 'archiveAll'], 'private');
+Route::post('ajax/archive/{item_id}', ['AjaxController', 'archive'], 'private');
+Route::post('ajax/rate/{item_id}', ['AjaxController', 'rate'], 'private');
+Route::post('ajax/refresh', ['AjaxController', 'refresh'], 'private');
+Route::post('ajax/tag', ['AjaxController', 'tag'], 'private');
+
+
+Route::get('auto-rating/add/{category_id}', ['AutoRatingsController', 'add'], 'private');
+Route::post('auto-rating/add/{category_id}', ['AutoRatingsController', 'create'], 'private');
+
+Route::get('auto-rating/edit/{id}', ['AutoRatingsController', 'edit'], 'private');
+Route::post('auto-rating/edit/{id}', ['AutoRatingsController', 'update'], 'private');
+
+Route::post('auto-rating/delete/{id}', ['AutoRatingsController', 'delete'], 'private');
+
+
+Route::get('categories', ['CategoriesController', 'categories'], 'private');
+
+Route::get('category/add', ['CategoriesController', 'add'], 'private');
+Route::post('category/add', ['CategoriesController', 'create'], 'private');
+
+Route::get('category/edit/{id}', ['CategoriesController', 'edit'], 'private');
+Route::post('category/edit/{id}', ['CategoriesController', 'update'], 'private');
+
+Route::post('category/delete/{id}', ['CategoriesController', 'delete'], 'private');
+
+
+Route::get('color/edit/{id}', ['ColorsController', 'edit'], 'private');
+Route::post('color/edit/{id}', ['ColorsController', 'update'], 'private');
+
+
+Route::get('default-color/edit/{id}', ['DefaultColorsController', 'edit'], 'private');
+Route::post('default-color/edit/{id}', ['DefaultColorsController', 'update'], 'private');
+
+
+Route::get('default-tag/add', ['DefaultTagsController', 'add'], 'private');
+Route::post('default-tag/add', ['DefaultTagsController', 'create'], 'private');
+
+Route::get('default-tag/edit/{id}', ['DefaultTagsController', 'edit'], 'private');
+Route::post('default-tag/edit/{id}', ['DefaultTagsController', 'update'], 'private');
+
+Route::post('default-tag/delete/{id}', ['DefaultTagsController', 'delete'], 'private');
+
+
+Route::get('feeds', ['FeedsController', 'feeds'], 'private');
+
+Route::get('feed/add', ['FeedsController', 'add'], 'private');
+Route::get('feed/add/{category_id}', ['FeedsController', 'add'], 'private');
+Route::post('feed/add', ['FeedsController', 'create'], 'private');
+Route::post('feed/add/{category_id}', ['FeedsController', 'create'], 'private');
+
+Route::get('feed/edit/{id}', ['FeedsController', 'edit'], 'private');
+Route::post('feed/edit/{id}', ['FeedsController', 'update'], 'private');
+
+Route::post('feed/delete/{id}', ['FeedsController', 'delete'], 'private');
+
+Route::get('feeds/all', ['AppController', 'all'], 'private');
+Route::get('feeds/category/{id}', ['AppController', 'category'], 'private');
+Route::get('feeds/tag/{id}', ['AppController', 'tag'], 'private');
+Route::get('feeds/feed/{id}', ['AppController', 'feed'], 'private');
+Route::get('feeds/rated/{rating}', ['AppController', 'rated'], 'private');
+Route::get('feeds/auto/{range}', ['AppController', 'auto'], 'private');
+Route::get('feeds/archive', ['AppController', 'archive'], 'private');
+
+
+Route::get('settings', ['SettingsController', 'settings'], 'private');
+Route::post('settings', ['SettingsController', 'update'], 'private');
+
+
+
+Route::get('tag/add/{category_id}', ['TagsController', 'add'], 'private');
+Route::post('tag/add/{category_id}', ['TagsController', 'create'], 'private');
+
+Route::get('tag/edit/{id}', ['TagsController', 'edit'], 'private');
+Route::post('tag/edit/{id}', ['TagsController', 'update'], 'private');
+
+Route::post('tag/delete/{id}', ['TagsController', 'delete'], 'private');
+
+
+
 // Public
 Route::get('forgot-password', ['AuthController', 'forgotPassword'], 'public');
 Route::post('forgot-password', ['AuthController', 'forgotPasswordPost'], 'public');

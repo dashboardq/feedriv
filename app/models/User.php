@@ -31,6 +31,43 @@ class User extends Model {
 
         $item = new User($args);
         $item->save();
+
+        // Create default tags
+        $tag = [];
+        $tag['user_id'] = $item->id;
+        $tag['name'] = 'Read';
+        DefaultTag::create($tag);
+
+        $tag = [];
+        $tag['user_id'] = $item->id;
+        $tag['name'] = 'Reply';
+        DefaultTag::create($tag);
+
+        // Create default colors
+        $color = [];
+        $color['user_id'] = $item->id;
+        $color['range'] = '1-2';
+        $color['color'] = '#fb9595';
+        DefaultColor::create($color);
+
+        $color = [];
+        $color['user_id'] = $item->id;
+        $color['range'] = '2-3';
+        $color['color'] = '#ffff99';
+        DefaultColor::create($color);
+
+        $color = [];
+        $color['user_id'] = $item->id;
+        $color['range'] = '3-4';
+        $color['color'] = '#ffff99';
+        DefaultColor::create($color);
+
+        $color = [];
+        $color['user_id'] = $item->id;
+        $color['range'] = '4-5';
+        $color['color'] = '#99ff99';
+        DefaultColor::create($color);
+
         return $item;
     }
 

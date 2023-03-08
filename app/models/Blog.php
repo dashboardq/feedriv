@@ -10,11 +10,17 @@ use League\CommonMark\Extension\HeadingPermalink\HeadingPermalinkRenderer;
 use League\CommonMark\MarkdownConverter;
 
 class Blog {
-    public static function all() {
+    public static function all($only_content = false) {
         $items = Blog::list();
 
         foreach($items as $i => $item) {
             $items[$i]['content'] = Blog::md(file_get_contents($item['file']));
+
+            // Strip out header and footer (this is very rough code for now but it does the job).
+            if($only_content) {
+                $items[$i]['content'] = preg_replace('/<h1>.*<\/h1>/', '', $items[$i]['content']);
+                $items[$i]['content'] = preg_replace('/<hr>.*/sm', '', $items[$i]['content']);
+            }
         }
 
         return $items;

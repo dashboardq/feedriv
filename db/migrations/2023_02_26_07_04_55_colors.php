@@ -7,7 +7,7 @@ CREATE TABLE `colors` (
     `id` bigint unsigned NOT NULL AUTO_INCREMENT,
     `user_id` bigint unsigned NOT NULL DEFAULT '0',
     `category_id` bigint unsigned NOT NULL DEFAULT '0',
-    `score` varchar(255) NOT NULL DEFAULT '',
+    `range` varchar(255) NOT NULL DEFAULT '',
     `color` varchar(255) NOT NULL DEFAULT '',
     `created_at` timestamp NULL DEFAULT NULL,
     `updated_at` timestamp NULL DEFAULT NULL,

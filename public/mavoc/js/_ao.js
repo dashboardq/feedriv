@@ -98,13 +98,42 @@ window._ao = {};
     };
     */
 
+    _ao.defaultCb = function(err, response) {
+        var messages = [];
+        var data;
+        if(err) {
+            // This parses the JSON twice so would not be optimal for large JSON payloads.
+            if(_ao.isJSON(response)) {
+                data = JSON.parse(response);
+
+                if(data.messages) {
+                    _ao.error(data.messages);
+                } else {
+                    _ao.error('There was a problem processing the submission.');
+                }
+            }
+
+
+            /*
+            if(data.messages) {
+                alert(data.messages.join("\n"));
+            } else {
+                alert(data);
+            }
+            */
+        }
+    };
+
     _ao.empty = function() {};
 
     _ao.error = function(messages, title) {
         var content = '';
         var e;
-        var i;
+        var i = 0;
+        var j = 0;
         var response = {};
+        var message;
+        var key;
         if(messages instanceof Event) {
             e = messages;
             response = JSON.parse(e.detail.response);
@@ -117,21 +146,46 @@ window._ao = {};
                 content += _ao.esc(message);
                 i++;
             }
-            _ao.dangerousHTML('.overlay.message .content', content);
-            ao.qs('.overlay.message').classList.add('show');
-            ao.qs('.overlay.processing').classList.remove('show');
+            _ao.dangerousHTML('#message.overlay .content', content);
+            ao.qs('#message.overlay').classList.add('show');
+            ao.qs('#processing.overlay').classList.remove('show');
         } else if(Array.isArray(messages)) {
             for(i = 0; i < messages.length; i++) {
             }
+        } else if(typeof messages == 'object') {
+            i = 0;
+            for(key in messages) {
+                if(i != 0) {
+                    content += '<br>';
+                }
+
+                if(typeof messages[key] == 'array') {
+                    j = 0;
+                    for(message of messages[key]) {
+                        if(j != 0) {
+                            content += '<br>';
+                        }
+                        content += _ao.esc(messages);
+                        j++;
+                    }
+                    i++;
+                } else {
+                    content += _ao.esc(messages[key]);
+                    i++;
+                }
+            }
+            _ao.dangerousHTML('#message.overlay .content', content);
+            ao.qs('#message.overlay').classList.add('show');
+            ao.qs('#processing.overlay').classList.remove('show');
         } else {
             content = _ao.esc(messages);
             content = _ao.nl2br(content);
-            _ao.dangerousHTML('.overlay.message .content', content);
+            _ao.dangerousHTML('#message.overlay .content', content);
             if(title) {
-                _ao.text('.overlay.message h2', title);
+                _ao.text('#message.overlay h2', title);
             }
-            ao.qs('.overlay.message').classList.add('show');
-            ao.qs('.overlay.processing').classList.remove('show');
+            ao.qs('#message.overlay').classList.add('show');
+            ao.qs('#processing.overlay').classList.remove('show');
         }
     };
 
@@ -145,6 +199,19 @@ window._ao = {};
     _ao.dangerousHTML = function(selector, content) {
         ao.qs(selector).innerHTML = content;
     };
+
+    _ao.isJSON = function(input) {
+        try {
+            var json = JSON.parse(input);
+            if(typeof json == 'object') {
+                return true;
+            } else {
+                return false;
+            }
+        } catch(e) {
+            return false;
+        }
+    }
 
     _ao.nl2br = function(input) {
         var output = input.replace(/(\r\n|\n\r|\r|\n)/g, '<br>');
@@ -319,7 +386,7 @@ window._ao = {};
 	}
 
     function init() {
-        ao.listen('click', '.overlay [aria-label=Close]', clickClose);
+        //ao.listen('click', '.overlay [aria-label=Close]', clickClose);
 
         //ao.listen('submit', 'form[data-success]', ajaxForm);
     }

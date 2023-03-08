@@ -6,7 +6,7 @@
     <body class="<?php $res->pathClass(); ?>">
         <div id="app">
             <?php $res->partial('header-private'); ?>
-            <main>
+            <main class="page">
                 <section class="box">
                     <h2><?php esc($title); ?></h2>
 

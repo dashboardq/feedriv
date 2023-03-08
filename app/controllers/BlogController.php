@@ -32,7 +32,7 @@ class BlogController {
     public function rss($req, $res) {
         header('Content-Type: text/xml; charset=utf-8');
 
-        $items = Blog::all();
+        $items = Blog::all(true);
         return compact('items');
     }
 }

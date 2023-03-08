@@ -5,6 +5,7 @@ $up = function($db) {
     $sql = <<<'SQL'
 CREATE TABLE `auto_ratings` (
     `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+    `user_id` bigint unsigned NOT NULL DEFAULT '0',
     `category_id` bigint unsigned NOT NULL DEFAULT '0',
     `word` varchar(255) NOT NULL DEFAULT '',
     `use_count` int NOT NULL DEFAULT '0',

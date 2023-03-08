@@ -267,9 +267,15 @@ class Mavoc {
         try {
             $this->router->route($this->request, $this->response);
         } catch(Exception $e) {
-            $this->response->error($e->getMessage(), $e->getRedirect());
+            $redirect = $e->getRedirect();
+            $redirect = $this->hook('ao_final_exception_redirect', $redirect, $e, $this->request, $this->response);
+            $this->response->error($e->getMessage(), $redirect);
         } catch(\Exception $e) {
-            $redirect = '/';
+            if(isset($this->request->last_url)) {
+                $redirect = $this->request->last_url;
+            } else {
+                $redirect = '/';
+            }
             $redirect = $this->hook('ao_final_exception_redirect', $redirect, $e, $this->request, $this->response);
             
             $this->response->error($e->getMessage(), $redirect);

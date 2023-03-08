@@ -10,6 +10,12 @@ class Setting extends Model {
     public static $order = ['name' => 'asc'];
 
     public static $defaults = [
+        'category' => [
+            'name' => 'Category',
+            'key' => 'category',
+            'value' => 'all',
+            'editable' => 0,
+        ],
         'show_tags' => [
             'name' => 'Show Tags',
             'key' => 'show_tags',
@@ -28,18 +34,49 @@ class Setting extends Model {
             'value' => 0,
             'editable' => 1,
         ],
-        'save_rating' => [
-            'name' => 'Save Rating',
-            'key' => 'save_rating',
+        'save_ratings' => [
+            'name' => 'Save Ratings',
+            'key' => 'save_ratings',
             'value' => 1,
             'editable' => 1,
         ],
         'sort' => [
-            'name' => 'sort',
+            'name' => 'Sort',
             'key' => 'sort',
             'value' => 'date-desc',
             'editable' => 0,
         ],
+        'timezone' => [
+            'name' => 'Timezone',
+            'key' => 'timezone',
+            'value' => 'UTC',
+            'editable' => 1,
+        ],  
+
+        'feed_link' => [
+            'name' => 'Feed Link',
+            'key' => 'feed_link',
+            'value' => '/feeds/all',
+            'editable' => 0,
+        ],  
+        'feed_type' => [
+            'name' => 'Feed Type',
+            'key' => 'feed_type',
+            'value' => 'all',
+            'editable' => 0,
+        ],  
+        'feed_id' => [
+            'name' => 'Feed ID',
+            'key' => 'feed_id',
+            'value' => '0',
+            'editable' => 0,
+        ],  
+        'filter_link' => [
+            'name' => 'Filter Link',
+            'key' => 'filter_link',
+            'value' => '',
+            'editable' => 0,
+        ],  
     ];
 
     public static function get($user_id = 0, $key = null) {

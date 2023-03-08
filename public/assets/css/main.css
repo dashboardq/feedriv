@@ -1,0 +1,533 @@
+body {
+    background: #f8f8f8;
+    line-height: 1.5;
+}
+
+h3 {
+    text-transform: uppercase;
+    margin-bottom: .5rem;
+}
+
+#app {
+    display: grid;
+    grid-template-columns: auto 280px 600px 320px auto;
+}
+
+#app > header {
+    position: relative;
+    z-index: 100;
+    grid-column: 1 / 6;
+    margin-bottom: 2rem;
+    background: #ffffff;
+    height: auto;
+    padding: 6px 0;
+
+    box-shadow: 0 6px 14px 0 #0000001a;
+}
+
+#app > header .box {
+    align-items: initial;
+}
+#app > header h2 {
+    margin-top: 4px;
+}
+#app > header menu {
+    margin-top: 8px;
+}
+
+#app > footer {
+    grid-column: 1 / 6;
+    grid-row-start: 3;
+    background: #ffffff;
+
+    box-shadow: 0 6px 14px 0 #0000001a;
+}
+#app > footer p {
+    margin-bottom: 0;
+}
+
+#sidebar_left {
+    grid-column: 2 / 3;
+    background: #f8f8f8;
+    padding: 1rem;
+}
+
+#app > main {
+    padding: 1rem;
+    /*
+    background: #ffffff;
+    */
+
+    grid-column: 1 / 6;
+}
+.page_feeds #app > main {
+    grid-column: initial;
+}
+
+#sidebar_right {
+    background: #f8f8f8;
+    padding: 1rem;
+}
+
+.sidebars {
+    position: relative;
+}
+.sidebars .button {
+    width: 100%;
+    text-align: center;
+}
+
+.sidebars h3 a {
+    font-size: 1rem;
+    font-weight: normal;
+    float: right;
+    text-transform: none;
+}
+.sidebars h3 a:hover {
+    text-decoration: underline;
+}
+.sidebars ul {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    margin-bottom: 1rem;
+}
+.sidebars ul ul {
+    margin-left: 1.5rem;
+    margin-bottom: 0;
+}
+.sidebars li {
+    line-height: 1.5;
+}
+.sidebars li a {
+    text-decoration: none;
+    font-size: 1.2rem;
+}
+.sidebars li a:hover {
+    text-decoration: underline;
+}
+
+.sidebars button {
+    float: right;
+    text-indent: -100000px;
+    background: transparent;
+    color: inherit;
+    padding-right: 0.5rem;
+}
+.sidebars button:before {
+    content: '▼';
+    float: left;
+    text-indent: 0;
+    margin-top: -12px;
+}
+
+.page {
+    background: #ffffff;
+    box-shadow: 0 6px 14px 0 #0000001a;
+
+    margin-top: 32px;
+    margin-bottom: 32px;
+}
+
+.page h1 {
+    margin-top: -72px;
+    margin-bottom: 20px;
+}
+.page_blog h1 {
+    margin-bottom: 42px;
+}
+.page h1 + p a {
+    font-size: 14px;
+}
+.page h2 {
+    margin-bottom: 0;
+}
+.page form {
+    margin-bottom: 2rem;
+}
+.page table {
+    margin-bottom: 2rem;
+}
+.page table form {
+    margin-bottom: 0;
+}
+
+td[data-label=Sort] {
+    text-align: center;
+}
+
+
+.active {
+    font-weight: bold;
+}
+
+#app > main .box {
+    padding: 0 1rem;
+}
+
+#app > main .filters {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    padding: 1.5rem 1rem;
+    background: #fff;
+    margin-bottom: 2rem;
+    box-shadow: 0 6px 14px 0 #0000001a;
+}
+
+#app > main .filters h3 {
+    display: inline-block;
+    margin-bottom: 0;
+}
+#app > main .filters button {
+    display: inline-block;
+/*
+    position: absolute;
+    right: 1rem;
+*/
+}
+
+main article {
+    position: relative;
+    margin-bottom: 2rem;
+    padding: 1rem;
+
+    background: #fff;
+    margin-bottom: 2rem;
+    box-shadow: 0 6px 14px 0 #0000001a;
+
+    padding-bottom: 0;
+}
+main article h2 {
+    margin-bottom: .5rem;
+    width: 380px;
+}
+main article .content {
+    padding-bottom: 1rem;
+}
+
+main article img {
+    max-width: 100%;
+}
+
+main article button {
+    position: absolute;
+    top: 1rem;
+    right: 24px;
+}
+
+.logo {
+    vertical-align: text-bottom;
+    margin-right: 8px;
+}
+
+
+.stars {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 0;
+    height: 28px;
+    width: 124px;
+    vertical-align: top;
+}
+.stars.process:after {
+    content: '';
+    position: absolute;
+    bottom: 2px;
+    left: 0;
+    display: block;
+    width: 100%;
+    border-bottom: 2px solid #008000;
+
+    animation: process 1.4s infinite linear;
+}
+.stars + span {
+    display: inline-block;
+    margin-left: 1rem;
+}
+.stars input {
+    position: absolute;
+    left: -100000px;
+}
+.stars label {
+    position: absolute;
+    left: -100200px;
+    display: inline-block;
+
+    color: #cc9900;
+}
+.stars label:before {
+    content: '\2606';
+    position: absolute;
+    top: -4px;
+    left: 100200px;
+    font-size: 1.4rem;
+    width: 25px;
+    text-align: center;
+    cursor: pointer;
+}
+.stars label:nth-child(2) {
+    left: -100100px;
+}
+.stars label:nth-child(4) {
+    left: -100125px;
+}
+.stars label:nth-child(6) {
+    left: -100150px;
+}
+.stars label:nth-child(8) {
+    left: -100175px;
+}
+.stars label:nth-child(10) {
+    left: -100200px;
+}
+
+.stars label:hover:before {
+    content: '\2605';
+    opacity: .8;
+}
+.stars label:hover ~ label:before {
+    content: '\2605';
+    opacity: .8;
+}
+.stars label:active:before {
+    content: '\2605';
+    opacity: 1;
+}
+.stars label:active ~ label:before {
+    content: '\2605';
+    opacity: 1;
+}
+.stars input:checked ~ label:before {
+    content: '\2605';
+}
+
+input[type=checkbox].custom {
+    position: absolute;        
+    margin: 0;
+    padding: 0;                
+    width: 1px;
+    height: 1px;
+    overflow: hidden;          
+    border: 0;
+    white-space: nowrap;
+    clip-path: inset(50%);     
+}
+input[type=checkbox].custom + label {
+    position: relative;
+    display: inline-block;
+    border: 1px solid #008000;
+    /*
+    margin-left: -20px;
+    */
+    padding: 0.5rem;
+    padding-left: 36px;
+    background: #fff;
+    cursor: pointer;
+    user-select: none;
+    line-height: normal;
+}
+main input[type=checkbox].custom + label {
+    margin-bottom: 1rem;
+}
+input[type=checkbox].custom + label:before {
+    content: '';
+    position: absolute;
+    top: 6px;
+    left: 8px;
+    display: inline-block;
+    width: 22px;
+    height: 22px;
+    background: url(/assets/images/tabler-icons/circle.svg) no-repeat;
+}
+input[type=checkbox].custom#toggle_menu + label:before {
+    background: url(/assets/images/tabler-icons/menu-2.svg) no-repeat;
+}
+input[type=checkbox].custom#toggle_menu:checked + label:before {
+    background: url(/assets/images/tabler-icons/x-ffffff.svg) no-repeat;
+}
+input[type=checkbox].custom.process + label:after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    display: block;
+    width: 100%;
+    border-bottom: 2px solid #008000;
+
+    animation: process 1.4s infinite linear;
+}
+input[type=checkbox].custom:checked + label {
+    background: #008000;
+    color: #fff;
+}
+input[type=checkbox].custom:checked + label:before {
+    background: url(/assets/images/tabler-icons/circle-check-ffffff.svg) no-repeat;
+}
+
+
+nav > input,
+nav > input[type=checkbox].custom + label {
+    display: none;
+}
+
+.feeds ul ul {
+    display: none;
+}
+.feeds ul input[type=checkbox].custom:checked ~ ul {
+    display: block;
+}
+
+input[type=checkbox].custom + label.toggle_arrow {
+    padding: 0.5rem;
+    background: transparent;
+    color: initial;
+    border: 0;
+    transform: rotate(270deg);
+}
+input[type=checkbox].custom:checked + label.toggle_arrow {
+    padding: 0.5rem;
+    background: transparent;
+    color: initial;
+    border: 0;
+    transform: initial;
+}
+
+input[type=checkbox].custom + label.toggle_arrow:before,
+input[type=checkbox].custom:checked + label.toggle_arrow:before {
+    display: none;
+}
+
+input[type=submit].process:after,
+button.process:after,
+.button.process:after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    display: block;
+    width: 100%;
+    border-bottom: 2px solid #008000;
+
+    animation: process 1.4s infinite linear;
+}
+
+.modal h2 {
+    margin-bottom: 0.5rem;
+}
+.modal form {
+    display: inline-block;
+}
+
+.focus {
+    border: 2px solid #343541;
+}
+
+
+@media (min-width: 1200px) {
+    td[data-label=Sort] {
+        cursor: move;
+    }
+    .sort_order {
+        background: transparent;
+        color: inherit;
+        padding: 0;
+        pointer-events: none;
+    }
+}
+@media (max-width: 1199px) {
+    #app {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    header {
+        width: 100%;
+    }
+
+    .sidebars {
+        display: none;
+    }
+
+    #app > main {
+        width: 100%;
+    }
+
+    /* BOF Navigation */
+    header nav menu {
+        display: none;
+    }
+
+    nav > input[type=checkbox].custom + label {
+        display: inline-block;
+    }
+
+    /* OPENED */
+    .menu_active #app > header {
+        padding-bottom: 100px;
+    }
+
+    .menu_active #app > header > .box {
+        align-items: initial;
+    }
+
+    .page_feeds.menu_active main {
+        display: none;
+    }
+
+    .menu_active #app > header menu {
+        display: block;
+        position: absolute;
+        top: 36px;
+        left: 0;
+
+        margin-top: 24px;
+        width: 100vw;
+        line-height: 2;
+    }
+
+    /*
+    nav menu {
+        display: block;
+        position: absolute;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: #fff;
+    }
+    */
+
+    nav menu li {
+    }
+
+    .menu_active .sidebars {
+        position: relative;
+        display: block;
+        z-index: 100;
+        width: 50vw;
+        box-sizing: border-box;
+    }
+
+    /* EOF Navigation */
+    #app > main .filters .sort_box {
+        width: 100%;
+        margin-bottom: 1rem;
+    }
+
+    footer {
+        width: 100vw;
+    }
+}
+
+
+@keyframes process {              
+    0% {
+        width: 1%;        
+    }
+    100% {
+        width: 100%;        
+    } 
+} 

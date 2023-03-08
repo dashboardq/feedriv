@@ -5,8 +5,8 @@
     </head>
     <body class="<?php $res->pathClass(); ?>">
         <div id="app">
-            <?php $res->partial('header-private'); ?>
-            <main>
+            <?php $res->partial('header'); ?>
+            <main class="page">
                 <section class="box">
                     <h2>Account</h2>
 

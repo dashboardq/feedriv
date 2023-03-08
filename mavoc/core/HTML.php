@@ -33,6 +33,9 @@ class HTML {
     }
 
     public function _checkbox($label, $name = '', $value = '', $class = '', $extra = '') {
+        if(!$name) {
+            $name = underscorify($label);
+        }
         if($value === '') {
             $value = 1;
         }

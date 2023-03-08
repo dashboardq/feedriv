@@ -3,7 +3,7 @@
     <head>                     
         <?php $res->partial('head'); ?>
     </head>
-    <body class="<?php $res->pathClass(); ?>">
+    <body class="page_blog <?php $res->pathClass(); ?>">
         <div id="app">
             <?php $res->partial('header'); ?>
             <main>

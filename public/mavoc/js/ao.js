@@ -79,6 +79,9 @@ window.ao = {};
     };
 
     ao.post = function(url, data, cb) {
+        if(typeof cb == 'undefined') {
+            cb = _ao.defaultCb;
+        }
         var request = new XMLHttpRequest();
         request.open('POST', url, true);
 
@@ -130,12 +133,12 @@ window.ao = {};
         if(selector && e.target.matches(selector)) {
             e.ao = {};
             e.ao.target = e.target;
-            console.log(e);
+            //console.log(e);
             func(e);
         } else if(selector && e.target.closest(selector)) {
             e.ao = {};
             e.ao.target = e.target.closest(selector);
-            console.log(e);
+            //console.log(e);
             func(e);
         } else if(!selector) {
             func(e);

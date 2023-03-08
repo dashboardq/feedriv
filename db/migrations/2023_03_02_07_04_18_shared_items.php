@@ -3,15 +3,16 @@
 // Up
 $up = function($db) {
     $sql = <<<'SQL'
-CREATE TABLE `feeds` (
+CREATE TABLE `shared_items` (
     `id` bigint unsigned NOT NULL AUTO_INCREMENT,
-    `user_id` bigint unsigned NOT NULL DEFAULT '0',
-    `category_id` bigint unsigned NOT NULL DEFAULT '0',
     `shared_feed_id` bigint unsigned NOT NULL DEFAULT '0',
-    `original_url` varchar(255) NOT NULL DEFAULT '',
-    `real_url` varchar(255) NOT NULL DEFAULT '',
     `title` varchar(255) NOT NULL DEFAULT '',
-    `last_updated_at` timestamp NULL DEFAULT NULL,
+    `link` varchar(255) NOT NULL DEFAULT '',
+    `guid` varchar(255) NOT NULL DEFAULT '',
+    `pub_date` varchar(255) NOT NULL DEFAULT '',
+    `description` longtext,
+    `type` varchar(255) NOT NULL DEFAULT 'basic',
+    `published_at` timestamp NULL DEFAULT NULL,
     `created_at` timestamp NULL DEFAULT NULL,
     `updated_at` timestamp NULL DEFAULT NULL,
     PRIMARY KEY (`id`)
@@ -24,7 +25,7 @@ SQL;
 // Down
 $down = function($db) {
     $sql = <<<'SQL'
-DROP TABLE `feeds`;
+DROP TABLE `shared_items`;
 SQL;
 
     $db->query($sql);

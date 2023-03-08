@@ -12,7 +12,7 @@
                         <?php $res->html->messages(); ?>
                     </section>
 
-                    <section class="card login">
+                    <section class="card login page">
                         <h2>Login</h2>
                         <form method="POST">
                             <?php $res->html->text('Email', 'login_email'); ?>
@@ -28,7 +28,7 @@
                     </section>
 
                     <?php if(ao()->env('APP_REGISTER_ALLOW') && ao()->env('APP_LOGIN_TYPE') == 'db'): ?>
-                    <section class="card register">
+                    <section class="card register page">
                         <h2>Register</h2>
                         <form action="<?php uri('register'); ?>" method="POST">
                             <?php $res->html->text('Full Name', 'name'); ?>

@@ -1,5 +1,6 @@
 {
     "require": {
-        "league/commonmark": "^2.3"
+        "league/commonmark": "^2.3",
+        "ezyang/htmlpurifier": "^4.16"
     }
 }

@@ -1,27 +1,49 @@
         <div id="archive_all" class="overlay">
-            <div class="popup">
-                <h2>Clear All</h2>
-                <p>Are you sure you want to archive all items for the current filter?</p>
+            <div class="modal">
+                <h2>Archive All</h2>
+                <p>Are you sure you want to archive all items for the current filters?</p>
                 <div>
                     <form>
                         <input type="submit" value="Archive All" />
                     </form>
-                    <button class="cancel">Cancel</button>
+                    <button class="cancel" data-remove="show">Cancel</button>
                 </div>
-                <button class="close">Close</button>
+                <button aria-label="Close" data-remove="show">&times;</button>
             </div>
         </div>
 
-        <div class="overlay processing" hidden>
-            <div class="loading"><span></span></div>
+        <div id="refresh" class="overlay">
+            <div class="modal">
+                <h2>Refresh</h2>
+                <p>Reload each of the currently selected feeds.</p>
+                <div>
+                    <form>
+                        <button class="xprocess">Refresh</button>
+                    </form>
+                    <button class="cancel" data-remove="show">Cancel</button>
+                </div>
+                <button aria-label="Close" data-remove="show">&times;</button>
+            </div>
         </div>
 
-        <div class="overlay modal" hidden>
+        <div id="error" class="overlay message" hidden>
             <div class="box">
                 <h2>Error</h2>
                 <div class="content"></div>
                 <button class="_close" aria-label="Close">&times;</button>
             </div>
+        </div>
+
+        <div id="message" class="overlay">
+            <div class="modal">
+                <h2>Error</h2>
+                <div class="content"></div>
+                <button aria-label="Close" data-remove="show">&times;</button>
+            </div>
+        </div>
+
+        <div id="processing" class="overlay" hidden>
+            <div class="loading"><span></span></div>
         </div>
 
         <?php if($user): ?>

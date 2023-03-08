@@ -16,6 +16,12 @@ if(!function_exists('classify')) {
     }
 }
 
+if(!function_exists('dangerous')) {
+    function dangerous($input) {
+        echo $input;
+    }
+}
+
 if(!function_exists('dashify')) {
     function dashify($input) {
         // Add a space before uppercase letters (make sure the first letter is not uppercase).
@@ -27,6 +33,15 @@ if(!function_exists('dashify')) {
         }
         $output = implode('-', $parts);
         return $output;
+    }
+}
+
+if(!function_exists('dd')) {   
+    function dd($input) {      
+        echo '<pre>'; 
+        print_r($input);       
+        echo '</pre>';         
+        die;
     }
 }
 
@@ -234,6 +249,22 @@ if(!function_exists('uri')) {
     }
 }
 
+if(!function_exists('_url')) {
+    function _url($input) {
+        $output = '';
+        $output .= ao()->env('APP_SITE');
+        $output .= '/';
+        $output .= trim($input, '/');
+
+        $output = _esc($output);
+        return $output;
+    }
+}
+if(!function_exists('url')) {
+    function url($input) {
+        echo _url($input);
+    }
+}
 
 if(!function_exists('wordify')) {
     function wordify($input) {

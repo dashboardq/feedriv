@@ -6,7 +6,7 @@
     <body class="<?php $res->pathClass(); ?>">
         <div id="app">
             <?php $res->partial('header'); ?>
-            <main>
+            <main class="page">
                 <section class="box">
                     <?php $res->html->messages(); ?>
 

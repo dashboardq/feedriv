@@ -1,0 +1,309 @@
+* {
+    margin-top: 0;
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    color: #343541;
+    line-height: 1.25;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin: 0 0 1em 0;
+}
+
+menu {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+menu li {
+    display: inline-block;
+    margin: 0 1rem;
+}
+
+#app > header h2 {
+    margin-bottom: 0;
+}
+
+
+.box {
+    position: relative;
+    padding: 1rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+.page {
+    position: relative;
+    padding: 1rem;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+header {
+    height: 50px;
+}
+
+a {
+    text-decoration: underline;
+    color: inherit;
+}
+
+h1 a, h2 a, h3 a, h4 a, h5 a, h6 a,
+nav a {
+    text-decoration: none;
+    color: inherit;
+}
+
+label {
+    display: block;
+}
+form > div {
+    margin-bottom: 1rem;
+}
+
+fieldset {
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+code {
+    background: #efefef;
+    padding: 1px;
+    border: 1px solid #dedede;
+    border-radius: 3px;
+}
+
+hr {
+    border: 0;
+    border-bottom: 1px solid #343541;
+}
+
+#app > header > .box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    width: 1200px;
+    height: 100%;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+#app > footer > .box {
+    display: flex;
+    justify-content: space-between;
+
+    width: 1200px;
+    height: 100%;
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+#app > footer ul {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+#app > footer li {
+    margin-bottom: 1rem;
+}
+
+input[type=submit],
+button,
+.button {
+    background-color: transparent; 
+    color: inherit; 
+    border-width: 0; 
+    padding: 0; 
+    cursor: pointer;
+
+    display: inline-block;
+    padding: 12px 24px;
+    padding: 8px 24px;
+    font-size: 1rem;
+    background: #008000;
+    color: #ffffff;
+    border-radius: 2px;
+    font-weight: 500;
+    transition: .3s opacity, .3s background;
+
+    text-decoration: none;
+}
+input[type=submit]:hover,
+button:hover,
+.button:hover {
+    background: #009000;;
+    opacity: 0.9;
+}
+
+select {
+    padding: 0.5rem;
+}
+
+textarea,
+input[type=text],
+input[type=password] {
+    padding: .4rem .6rem;
+    border: 1px solid #e0e0e0;
+    border-radius: 3px;
+    color: #495057;
+    max-width: calc(100% - 24px);
+}
+
+textarea {
+    width: 100%;
+    height: 250px;
+    padding: 12px;
+    font-family: inherit;
+    font-size: inherit;
+}
+
+[aria-label=Close] {
+    position: absolute;
+    top: .5rem;
+    right: .5rem;
+    background: #d6d6d6;
+    padding: .25rem;
+    width: 30px;
+    color: inherit;
+}
+[aria-label=Close]:hover {
+    background: #d6d6d6;
+}
+
+.flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* BOF Notices */
+.notice {
+    position: relative;        
+    padding: .75rem 1.25rem;   
+    margin-bottom: 1rem;       
+    border-radius: .25rem;     
+    border: 1px solid transparent;
+
+    color: #004085;
+    background-color: #cce5ff;
+    border-color: #b8daff;
+}       
+.notice.error {
+    color: #721c24;            
+    background-color: #f8d7da; 
+    border-color: #f5c6cb;     
+}   
+
+.notice.success {             
+    color: #155724;            
+    background-color: #d4edda; 
+    border-color: #c3e6cb;     
+}   
+.notice p:last-child {         
+    margin-bottom: 0;
+}
+/* EOF Notices */
+
+/* There should really be a browser standard for screen reader only content: 
+ * https://github.com/h5bp/main.css/issues/12
+ */   
+.sr { 
+    position: absolute;        
+    margin: 0;
+    padding: 0;                
+    width: 1px;
+    height: 1px;
+    overflow: hidden;          
+    border: 0;
+    white-space: nowrap;
+    clip-path: inset(50%);     
+} 
+
+.overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #00000033;
+    padding: 1rem;
+
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+}
+.overlay.show {
+    display: flex;
+}
+.overlay:not(.processing) > div {
+    position: relative;
+    background: #ffffff;
+    border: 1px solid #e0e0e0;
+    padding: 1rem;
+    border-radius: 3px;
+    min-width: 280px;
+}
+.overlay:not(.processing) > div h2 {
+    padding-right: 40px;
+}
+
+.overlay > .loading {
+    position: relative;
+}
+.overlay > .loading span {
+    display: block;
+    background: #ffffff;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+
+    animation: bounce 1.4s infinite ease-in-out both;
+    animation-delay: -0.16s;
+}
+.overlay > .loading:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -28px;
+    background: #ffffff;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+
+    animation: bounce 1.4s infinite ease-in-out both;
+    animation-delay: -0.32s;
+}
+.overlay > .loading:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 28px;
+    background: #ffffff;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+
+    animation: bounce 1.4s infinite ease-in-out both;
+}
+@keyframes bounce {
+    0%, 80%, 100% { 
+        transform: scale(0);
+    } 40% { 
+        transform: scale(1.0);
+    }
+}
+
+@media (max-width: 1199px) {
+    #app > header  > .box, 
+    #app > footer > .box {
+        width: auto;
+    }
+}
