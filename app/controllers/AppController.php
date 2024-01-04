@@ -21,33 +21,36 @@ class AppController {
     public function archive($req, $res) {
         $title = 'Feeds';
 
-        // Change the category
-        $change = true;
+        // Change the active link
+        Setting::set($req->user_id, 'feed_link', $req->path);
+        Setting::set($req->user_id, 'feed_type', 'archive');
 
         // TODO: Call another controller?
         $feeds_controller = new FeedsController();
         $args = $feeds_controller->feeds($req, $res);
 
-        $res->view('feeds/feed', $args);
+        $res->view('feeds/feeds', $args);
     }
 
     public function auto($req, $res) {
-        $title = 'Feeds';
+        $params = $req->val('params', [
+            'range' => ['required', ['match' => '/^\d-\d$/']],
+        ], '/feeds/all'); 
 
         // Change the category
-        $change = true;
+        Setting::set($req->user_id, 'feed_filter', 'auto_rated_' . $params['range']);
 
         // TODO: Call another controller?
         $feeds_controller = new FeedsController();
         $args = $feeds_controller->feeds($req, $res);
 
-        $res->view('feeds/feed', $args);
+        $res->view('feeds/feeds', $args);
     }
 
     public function category($req, $res) {
         $params = $req->val('params', [
             'id' => ['required', ['dbOwner' => ['categories', 'id', $req->user_id]]],
-        ]); 
+        ], '/feeds/all'); 
 
         // Change the active link
         Setting::set($req->user_id, 'feed_link', $req->path);
@@ -61,10 +64,21 @@ class AppController {
         $res->view('feeds/feeds', $args);
     }
 
+    public function clear($req, $res) {
+        // Change the category
+        Setting::set($req->user_id, 'feed_filter', '');
+
+        // Call another controller?
+        $feeds_controller = new FeedsController();
+        $args = $feeds_controller->feeds($req, $res);
+
+        $res->view('feeds/feeds', $args);
+    }
+
     public function feed($req, $res) {
         $params = $req->val('params', [
             'id' => ['required', ['dbOwner' => ['feeds', 'id', $req->user_id]]],
-        ]); 
+        ], '/feeds/all'); 
 
         // Change the active link
         Setting::set($req->user_id, 'feed_link', $req->path);
@@ -79,28 +93,32 @@ class AppController {
     }
 
     public function rated($req, $res) {
-        $title = 'Feeds';
+        $params = $req->val('params', [
+            'rating' => ['required', 'int'],
+        ], '/feeds/all'); 
 
         // Change the category
-        $change = true;
+        Setting::set($req->user_id, 'feed_filter', 'rated_' . $params['rating']);
 
-        // TODO: Call another controller?
+        // Call another controller
         $feeds_controller = new FeedsController();
         $args = $feeds_controller->feeds($req, $res);
 
-        $res->view('feeds/feed', $args);
+        $res->view('feeds/feeds', $args);
     }
 
     public function tag($req, $res) {
-        $title = 'Feeds';
+        $params = $req->val('params', [
+            'id' => ['required', ['dbOwner' => ['tags', 'id', $req->user_id]]],
+        ], '/feeds/all'); 
 
         // Change the category
-        $change = true;
+        Setting::set($req->user_id, 'feed_filter', 'tag_' . $params['id']);
 
-        // TODO: Call another controller?
+        // Call another controller
         $feeds_controller = new FeedsController();
         $args = $feeds_controller->feeds($req, $res);
 
-        $res->view('feeds/feed', $args);
+        $res->view('feeds/feeds', $args);
     }
 }

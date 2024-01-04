@@ -2,6 +2,10 @@
 
 namespace mavoc\console;
 
+if(is_file('vendor/autoload.php')) {
+    require 'vendor/autoload.php';
+}
+
 use app\App;
 
 //use mavoc\console\Args;
@@ -71,6 +75,9 @@ class Main {
     public $out;
     public $plugins;
     public $router;
+
+    // This will always be false because console commands do not have a session.
+    public $session_initialized = false;
 
     public function __construct() {
         // Load environment variables.

@@ -11,24 +11,159 @@ use app\models\Tag;
 class FeedsController {
     public function feeds($req, $res) {
         $title = 'Feeds';
+        $pagination = false;
 
         $feed_type = Setting::get($req->user_id, 'feed_type');
+        $feed_id = Setting::get($req->user_id, 'feed_id');
+        $feed_sort = Setting::get($req->user_id, 'feed_sort');
+        $feed_filter = Setting::get($req->user_id, 'feed_filter');
 
-        if($feed_type == 'category') {
-            $list = [];
-            $tags = [];
-            //$tags = Tag::where('category_id', $feed->data['category_id']);
+        $page = clean($req->query['page'] ?? 1, 'int', 1);
+
+        ao()->filter('ao_model_order_items', function($order) use ($feed_sort) {
+            if($feed_sort == 'date-asc') {
+                $order = ['published_at' => 'asc'];
+            } elseif($feed_sort == 'auto-asc') {
+                $order = ['auto_rating_int2' => 'asc'];
+            } elseif($feed_sort == 'auto-desc') {
+                $order = ['auto_rating_int2' => 'desc'];
+            } else {
+                // date-desc
+                $order = ['published_at' => 'desc'];
+            }
+            return $order;
+        });
+
+        $tags = Tag::where('user_id', $req->user_id);
+        if($feed_type == 'archive') {
+            $args = [
+                'user_id' => $req->user_id,
+                'archived' => 1,
+            ];
+            if(preg_match('/^rated_([1-5])+$/', $feed_filter, $matches)) {
+                $args['rating'] = $matches[1];
+            }
+            if(preg_match('/^auto_rated_([0-4])-([1-5])+$/', $feed_filter, $matches)) {
+                $lowest = $matches[1] * 100;
+                $highest = $matches[2] * 100;
+                if($highest == 500) {
+                    $args['auto_rating_int2'] = ['>=', $lowest];
+                } elseif($highest == 100) {
+                    $args['auto_rating_int2'] = ['<', $highest];
+                } else {
+                    $args['auto_rating_int2'] = [['>=', $lowest], ['<', $highest]];
+                }
+            }
+            if(preg_match('/^tag_(\d)+$/', $feed_filter, $matches)) {
+                $tag_id = $matches[1];
+                $list = Item::whereTag($tag_id, $args, [ao()->app->per_page, $page]);
+                $pagination = Item::whereTagCount($tag_id, $args, [ao()->app->per_page, $page, 'pagination', $req->path]);
+            } else {
+                $list = Item::where($args, [ao()->app->per_page, $page]);
+                $pagination = Item::count($args, [ao()->app->per_page, $page, 'pagination', $req->path]);
+            }
+
+        } elseif($feed_type == 'category') {
+            // Validate category_id
+            $val = $req->val(compact('feed_id'), [
+                'feed_id' => ['required', ['dbOwner' => ['categories', 'id', $req->user_id]]],
+                '_settings' => ['check_referrer' => false],
+            ], '/feeds/all'); 
+
+            $filters = [];
+            if(preg_match('/^rated_([0-5])+$/', $feed_filter, $matches)) {
+                $filters['rating'] = $matches[1];
+            }
+            if(preg_match('/^auto_rated_([0-4])-([1-5])+$/', $feed_filter, $matches)) {
+                $lowest = $matches[1] * 100;
+                $highest = $matches[2] * 100;
+                if($highest == 500) {
+                    $filters['auto_rating_int2'] = ['>=', $lowest];
+                } elseif($highest == 100) {
+                    $filters['auto_rating_int2'] = ['<', $highest];
+                } else {
+                    $filters['auto_rating_int2'] = [['>=', $lowest], ['<', $highest]];
+                }
+            }
+            if(preg_match('/^tag_(\d)+$/', $feed_filter, $matches)) {
+                $tag_id = $matches[1];
+                $filters['tag_id'] = $tag_id;
+                $list = Item::whereCategory($feed_id, $filters, [ao()->app->per_page, $page, 'pagination', $req->path]);
+                $pagination = Item::whereCategoryCount($feed_id, $filters, [ao()->app->per_page, $page, 'pagination', $req->path]);
+            } else {
+                $list = Item::whereCategory($feed_id, $filters, [ao()->app->per_page, $page, 'pagination', $req->path]);
+                $pagination = Item::whereCategoryCount($feed_id, $filters, [ao()->app->per_page, $page, 'pagination', $req->path]);
+            }
         } elseif($feed_type == 'feed') {
-            $list = [];
-            $tags = [];
-            //$tags = Tag::where('category_id', $feed->data['category_id']);
+            // Validate feed_id
+            $val = $req->val(compact('feed_id'), [
+                'feed_id' => ['required', ['dbOwner' => ['feeds', 'id', $req->user_id]]],
+                '_settings' => ['check_referrer' => false],
+            ], '/feeds/all'); 
+
+            $args = [
+                'feed_id' => $feed_id,
+                'archived' => 0,
+            ];
+            if(preg_match('/^rated_([0-5])+$/', $feed_filter, $matches)) {
+                $args['rating'] = $matches[1];
+            }
+            if(preg_match('/^auto_rated_([0-4])-([1-5])+$/', $feed_filter, $matches)) {
+                $lowest = $matches[1] * 100;
+                $highest = $matches[2] * 100;
+                if($highest == 500) {
+                    $args['auto_rating_int2'] = ['>=', $lowest];
+                } elseif($highest == 100) {
+                    $args['auto_rating_int2'] = ['<', $highest];
+                } else {
+                    $args['auto_rating_int2'] = [['>=', $lowest], ['<', $highest]];
+                }
+            }
+            if(preg_match('/^tag_(\d)+$/', $feed_filter, $matches)) {
+                $tag_id = $matches[1];
+                $list = Item::whereTag($tag_id, $args, [ao()->app->per_page, $page]);
+                $pagination = Item::whereTagCount($tag_id, $args, [ao()->app->per_page, $page, 'pagination', $req->path]);
+            } else {
+                $list = Item::where($args, [ao()->app->per_page, $page]);
+                $pagination = Item::count($args, [ao()->app->per_page, $page, 'pagination', $req->path]);
+            }
         } else {
-            $list = Item::where('user_id', $req->user_id);
-            $tags = Tag::where('user_id', $req->user_id);
+            $args = [
+                'user_id' => $req->user_id,
+                'archived' => 0,
+            ];
+            if(preg_match('/^rated_([1-5])+$/', $feed_filter, $matches)) {
+                $args['rating'] = $matches[1];
+            }
+            if(preg_match('/^auto_rated_([0-4])-([1-5])+$/', $feed_filter, $matches)) {
+                $lowest = $matches[1] * 100;
+                $highest = $matches[2] * 100;
+                if($highest == 500) {
+                    $args['auto_rating_int2'] = ['>=', $lowest];
+                } elseif($highest == 100) {
+                    $args['auto_rating_int2'] = ['<', $highest];
+                } else {
+                    $args['auto_rating_int2'] = [['>=', $lowest], ['<', $highest]];
+                }
+            }
+            if(preg_match('/^tag_(\d)+$/', $feed_filter, $matches)) {
+                $tag_id = $matches[1];
+                $list = Item::whereTag($tag_id, $args, [ao()->app->per_page, $page]);
+                $pagination = Item::whereTagCount($tag_id, $args, [ao()->app->per_page, $page, 'pagination', $req->path]);
+            } else {
+                $list = Item::where($args, [ao()->app->per_page, $page]);
+                $pagination = Item::count($args, [ao()->app->per_page, $page, 'pagination', $req->path]);
+            }
         }
 
+        // This is used to track what items can be archived when "Archive All" is called.
+        // Only 'viewed' items should be archived.
+        Item::updateWhere(['status' => 'viewed'], [
+            'user_id' => $req->user_id,
+            'archived' => 0,
+        ]);
 
-        return compact('list', 'tags', 'title');
+        return compact('feed_sort', 'list', 'pagination', 'tags', 'title');
     }
 
     public function add($req, $res) {

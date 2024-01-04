@@ -11,18 +11,11 @@ class Feed extends Model {
     public $items = [];
 
     public static function create($args) {
-        // TODO: delete
-        ao()->filter('ao_final_exception_redirect', function() {
-            echo 'died before redirect';
-            die;
-        });
-
-
         // Check if the shared feed exists by seeing if the original_url matches any other feeds original_url
         $similar = Feed::by('original_url', $args['original_url']);
         if($similar) {
             // Similar feed found. Get the $shared_feed
-            // TODO: Change this from ::find() to ::load() and have it load the latest items
+            // Load the latest items.
             $shared_feed = SharedFeed::load($similar->data['shared_feed_id']);
         } else {
             // No similar feed found so create the $shared_feed
@@ -49,9 +42,8 @@ class Feed extends Model {
             $temp['shared_item_id'] = $shared_item->id;
             $temp['published_at'] = $shared_item->data['published_at'];
 
-            // TODO: Get auto rating working (if it is turned on)
-            // TODO: Should probably move the items creation to a separate method
-            $temp['auto_rating_int2'] = 0;
+            $temp['auto_rating_int2'] = AutoRating::getRating($feed->data['category_id'], $shared_item->data['title'] . ' ' . $shared_item->data['description']);
+
             $temp['rating'] = 0;
             $temp['archived'] = 0;
             $temp['status'] = 'initialized';
@@ -60,6 +52,76 @@ class Feed extends Model {
         }
 
         return $feed;
+    }
+
+    public static function delete($id) {
+        // Delete all items associated with the feed.
+        ao()->db->query('DELETE FROM ' . Item::$table . ' WHERE feed_id = ?', $id);
+
+        parent::delete($id);
+    }
+
+    public function refresh($shared_feed = null) {
+        if(!$shared_feed) {
+            $shared_feed = SharedFeed::load($this->data['shared_feed_id']);
+        }
+
+        // Update the feed details
+        $data = [];
+        if($this->data['title'] != $shared_feed->data['title']) {
+            $data['title'] = $shared_feed->data['title'];
+        }
+        if($this->data['description'] != $shared_feed->data['description']) {
+            $data['description'] = $shared_feed->data['description'];
+        }
+        if($this->data['last_updated_at'] != $shared_feed->data['last_updated_at']) {
+            $data['last_updated_at'] = $shared_feed->data['last_updated_at'];
+        }
+        if(count($data)) {
+            self::update($data);
+        }
+
+        // Load the newest items
+        $last_shared_item_id = ao()->db->get('shared_item_id', '
+            SELECT shared_item_id
+            FROM items 
+            WHERE feed_id = ?
+            ORDER BY id DESC
+            LIMIT 1
+        ', $this->id);
+
+        /*
+        ao()->once('ao_db_query_args', function($args) {
+            echo debugLastSql($args);
+            echo "\n";
+            return $args;
+        });
+         */
+        $shared_items = SharedItem::query('
+            SELECT *
+            FROM shared_items 
+            WHERE shared_feed_id = ?
+            AND id > ?
+            ORDER BY id ASC
+        ', $this->data['shared_feed_id'], $last_shared_item_id);
+
+        $feed = $this;
+        $feed->items = [];
+        foreach($shared_items as $shared_item) {
+            $temp = [];
+            $temp['user_id'] = $feed->data['user_id'];
+            $temp['feed_id'] = $feed->data['id'];
+            $temp['shared_item_id'] = $shared_item->id;
+            $temp['published_at'] = $shared_item->data['published_at'];
+
+            $temp['auto_rating_int2'] = AutoRating::getRating($feed->data['category_id'], $shared_item->data['title'] . ' ' . $shared_item->data['description']);
+
+            $temp['rating'] = 0;
+            $temp['archived'] = 0;
+            $temp['status'] = 'initialized';
+
+            $feed->items[] = Item::create($temp);
+        }
     }
 
     public function total() {

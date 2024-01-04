@@ -53,7 +53,7 @@ class Clean {
             // and realize you should have added more details - like this note - I'm not sure what needs
             // to be fixed) (another follow up, I think the problem is that is_callable will always return
             // true when checking against a class with __call() set up).
-            if(function_exists($action)) {
+            if(is_string($action) && function_exists($action)) {
                 $result = $action($this->fields[$item]);
                 $this->fields[$item] = $result;
             } elseif(is_callable([$this->cleaners, $action])) {

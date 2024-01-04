@@ -140,6 +140,7 @@ class Validate {
                             $messages[$field_key] = [];
                         }
 
+                        /*
                         if(isset($_rules[$rule]) || isset($_messages[$field_key])) {
                             if(isset($_messages[$field_key][$rule])) {
                                 $messages[$field_key][] = str_replace('{title}', $field_title , $_messages[$field_key][$rule]);
@@ -149,6 +150,14 @@ class Validate {
                                 $messages[$field_key][] = str_replace('{title}', $field_title , $_rules[$rule]);
                             }
                         } elseif(in_array($key . 'Message', $methods)) {
+                            $args[1] = $field_title;
+                            $messages[$field_key][] = call_user_func_array([$this->rules, $key . 'Message'], $args);
+                        } else {
+                            // The $input is the entire data array.
+                            $messages[$field_key][] = $this->rules->message($rule, $input, $field_title);
+                        }
+                         */
+                        if(in_array($key . 'Message', $methods)) {
                             $args[1] = $field_title;
                             $messages[$field_key][] = call_user_func_array([$this->rules, $key . 'Message'], $args);
                         } else {

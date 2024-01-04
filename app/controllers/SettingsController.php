@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use app\models\DefaultColor;
 use app\models\DefaultTag;
+use app\models\Tag;
 use app\models\Setting;
 
 use DateTimeZone;
@@ -14,13 +15,13 @@ class SettingsController {
         $timezones = DateTimeZone::listIdentifiers(DateTimeZone::ALL);
 
         $settings = Setting::get($req->user_id);
-        //dd($settings);
         $res->fields = $settings;
 
-        $tags = DefaultTag::where('user_id', $req->user_id);
+        $default_tags = Tag::where(['user_id' => $req->user_id, 'default' => 1]);
+        $tags = Tag::where('user_id', $req->user_id);
         $colors = DefaultColor::where('user_id', $req->user_id);
 
-        return compact('colors', 'tags', 'timezones', 'title');
+        return compact('colors', 'default_tags', 'tags', 'timezones', 'title');
     }
 
     public function update($req, $res) {
@@ -28,6 +29,7 @@ class SettingsController {
             'timezone' => ['required'],
             'show_tags' => ['boolean'],
             'show_ratings' => ['boolean'],
+            'show_auto_ratings' => ['boolean'],
             'show_colors' => ['boolean'],
             'save_ratings' => ['boolean'],
         ]);
@@ -35,6 +37,7 @@ class SettingsController {
         $data = $req->clean($data, [
             'show_tags' => ['boolean'],
             'show_ratings' => ['boolean'],
+            'show_auto_ratings' => ['boolean'],
             'show_colors' => ['boolean'],
             'save_ratings' => ['boolean'],
         ]);

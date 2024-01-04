@@ -59,7 +59,7 @@ class SharedFeed extends Model {
         $data['language'] = $rss->language;
         $data['description'] = $rss->description;
         $data['last_updated_at'] = now();
-        $shared_feed = parent::create($data);
+        $shared_feed->update($data);
 
         // Create items based off of the RSS.
         // Load the oldest items first.
@@ -76,7 +76,7 @@ class SharedFeed extends Model {
             $temp['published_at'] = $item['published_at']->format('Y-m-d H:i:s');
 
             // If the shared item does not exist, create it.
-            $shared_item = SharedItem::by('guid', $temp['guid']);
+            $shared_item = SharedItem::by(['shared_feed_id' => $shared_feed->id, 'guid' => $temp['guid']]);
             if($shared_item) {
                 $shared_feed->items[] = $shared_item;
             } else {
@@ -88,5 +88,14 @@ class SharedFeed extends Model {
         $shared_feed->items = array_reverse($shared_feed->items);
 
         return $shared_feed;
+    }
+
+    public static function refresh($shared_feed_id) {
+        $shared_feed = SharedFeed::load($shared_feed_id);
+
+        $feeds = Feed::where('shared_feed_id', $shared_feed_id);
+        foreach($feeds as $feed) {
+            $feed->refresh($shared_feed);
+        }
     }
 }

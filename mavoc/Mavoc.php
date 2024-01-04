@@ -75,6 +75,10 @@ class Mavoc {
     public $router;
     public $session;
 
+    // Probably need to move this to some kind of alternative $this->conf() system but for true/false checkpoints.
+    // Maybe create $this->checkPoint()
+    public $session_initialized = false;
+
     public function __construct($envs) {
         $this->envs = $envs;
     }
@@ -156,24 +160,28 @@ class Mavoc {
         $func = [$this->plugins, 'init'];
         $func = $this->hook('ao_plugins_init', $func);
         call_user_func($func);
+        $this->plugins = $this->hook('ao_plugins_initialized', $this->plugins);
 
 
         $this->hooks = $this->hook('ao_hooks', $this->hooks);
         $func = [$this->hooks, 'init'];
         $func = $this->hook('ao_hooks_init', $func);
         call_user_func($func);
+        $this->hooks = $this->hook('ao_hooks_initialized', $this->hooks);
 
 
         $this->confs = $this->hook('ao_confs', $this->confs);
         $func = [$this->confs, 'init'];
         $func = $this->hook('ao_confs_init', $func);
         call_user_func($func);
+        $this->confs = $this->hook('ao_confs_initialized', $this->confs);
 
         $this->console = new Console();
         $this->console = $this->hook('ao_console', $this->console);
         $func = [$this->console, 'init'];
         $func = $this->hook('ao_console_init', $func);
         call_user_func($func);
+        $this->console = $this->hook('ao_console_initialized', $this->console);
 
         // Maybe have this fixed with autoloading
         $app_file = ao()->env('AO_APP_DIR') . DIRECTORY_SEPARATOR . 'App.php';
@@ -197,6 +205,7 @@ class Mavoc {
             $func = [$this->db, 'init'];
             $func = $this->hook('ao_db_init', $func);
             call_user_func($func);
+            $this->db = $this->hook('ao_db_initialized', $this->db);
         }
 
         $this->session = new Session();
@@ -204,18 +213,22 @@ class Mavoc {
         $func = [$this->session, 'init'];
         $func = $this->hook('ao_session_init', $func);
         call_user_func($func);
+        $this->session = $this->hook('ao_session_initialized', $this->session);
+        $this->session_initialized = true;
 
         $this->html = new HTML();
         $this->html = $this->hook('ao_html', $this->html);
         $func = [$this->html, 'init'];
         $func = $this->hook('ao_html_init', $func);
         call_user_func($func);
+        $this->html = $this->hook('ao_html_initialized', $this->html);
 
         $this->router = new Router();
         $this->router = $this->hook('ao_router', $this->router);
         $func = [$this->router, 'init'];
         $func = $this->hook('ao_router_init', $func);
         call_user_func($func);
+        $this->router = $this->hook('ao_router_initialized', $this->router);
 
 
         $this->request = new Request();
@@ -223,6 +236,7 @@ class Mavoc {
         $func = [$this->request, 'init'];
         $func = $this->hook('ao_request_init', $func);
         call_user_func($func);
+        $this->request = $this->hook('ao_request_initialized', $this->request);
 
 
         $this->response = new Response();
@@ -230,6 +244,7 @@ class Mavoc {
         $func = [$this->response, 'init'];
         $func = $this->hook('ao_response_init', $func);
         call_user_func($func);
+        $this->response = $this->hook('ao_response_initialized', $this->response);
 
         $this->request = $this->hook('ao_request_available', $this->request);
         $this->response = $this->hook('ao_response_available', $this->response);
@@ -240,6 +255,7 @@ class Mavoc {
         $func = [$this->email, 'init'];
         $func = $this->hook('ao_email_init', $func);
         call_user_func($func);
+        $this->email = $this->hook('ao_email_initialized', $this->email);
 
 
         $this->email->req = $this->request;

@@ -44,6 +44,10 @@ menu li {
     margin: 0 1rem;
 }
 
+img {
+    max-width: 100%;
+}
+
 #app > header h2 {
     margin-bottom: 0;
 }

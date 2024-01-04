@@ -16,6 +16,7 @@
                         <div class="field">
                             <?php $res->html->checkbox('Show Tags'); ?>
                             <?php $res->html->checkbox('Show Ratings'); ?>
+                            <?php $res->html->checkbox('Show Auto Ratings'); ?>
                             <?php $res->html->checkbox('Show Colors'); ?>
                             <?php $res->html->checkbox('Save Rating Scores For Training Auto Rating', 'save_ratings'); ?>
                         </div>
@@ -25,8 +26,8 @@
                         <?php $res->html->submit('Save'); ?>
                     </form>
 
-                    <h2>Default Tags</h2>
-                    <p><a href="/default-tag/add" class="button">Add Tag</a></p>
+                    <h2>Tags</h2>
+                    <p><a href="/tag/add" class="button">Add Tag</a></p>
                     <table>
                         <thead>
                             <tr>
@@ -39,11 +40,38 @@
                             <tr>
                                 <td data-label="Name"><?php esc($tag->data['name']); ?></td>
                                 <td data-label="Action">
-                                    <a href="/default-tag/edit/<?php esc($tag->id); ?>" class="button">Edit</a>
-                                    <?php $res->html->delete('/default-tag/delete/' . $tag->id, 'Delete'); ?>
+                                    <a href="/tag/edit/<?php esc($tag->id); ?>" class="button">Edit</a>
+                                    <?php $res->html->delete('/tag/delete/' . $tag->id, 'Delete'); ?>
                                 </td>
                             </tr>
                             <?php endforeach; ?>
+                            <?php if(count($tags) == 0): ?>
+                            <tr>
+                                <td data-label="Status" colspan="2">No tags at this time.</td>
+                            </tr>
+                            <?php endif; ?>
+                        </tbody>
+                    </table>
+
+                    <h2>Default Tags</h2>
+                    <p><a href="/tag/modify-defaults" class="button">Modify Default Tags</a></p>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach($default_tags as $tag): ?>
+                            <tr>
+                                <td data-label="Name"><?php esc($tag->data['name']); ?></td>
+                            </tr>
+                            <?php endforeach; ?>
+                            <?php if(count($default_tags) == 0): ?>
+                            <tr>
+                                <td data-label="Status" colspan="2">No default tags at this time.</td>
+                            </tr>
+                            <?php endif; ?>
                         </tbody>
                     </table>
 

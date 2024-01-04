@@ -31,7 +31,8 @@ class RSS {
             throw new \Exception('The URL does not appear to be valid XML. Please enter a valid RSS feed.');
         }
 
-        if(!isset($this->data->channel->title)) {
+        // RSS feeds are wrapped in channel and atom feeds are not.
+        if(!isset($this->data->channel->title) && !isset($this->data->title)) {
             throw new \Exception('The URL does not appear to be a valid RSS feed. Please enter a valid RSS feed.');
         }
 
@@ -40,18 +41,38 @@ class RSS {
         $this->description = $this->meta('description');
         $this->language = $this->meta('language');
 
-        foreach($this->data->channel->item as $item) {
-            $temp = [];
-            $temp['title'] = $this->item($item, 'title');
-            $temp['link'] = $this->item($item, 'link');
-            $temp['guid'] = $this->item($item, 'guid');
-            $temp['pub_date'] = $this->item($item, 'pubDate');
-            $temp['description'] = $this->item($item, 'description');
+        if(isset($this->data->channel->item)) {
+            // RSS
+            foreach($this->data->channel->item as $item) {
+                $temp = [];
 
-            $utc = new DateTimeZone('UTC');
-            $temp['published_at'] = new DateTime($temp['pub_date'], $utc);
+                $temp['title'] = $this->item($item, 'title');
+                $temp['link'] = $this->item($item, 'link');
+                $temp['guid'] = $this->item($item, 'guid');
+                $temp['pub_date'] = $this->item($item, 'pubDate');
+                $temp['description'] = $this->item($item, 'description');
 
-            $this->items[] = $temp;
+                $utc = new DateTimeZone('UTC');
+                $temp['published_at'] = new DateTime($temp['pub_date'], $utc);
+
+                $this->items[] = $temp;
+            }
+        } elseif(isset($this->data->entry)) {
+            // Atom
+            foreach($this->data->entry as $item) {
+                $temp = [];
+
+                $temp['title'] = $this->item($item, 'title');
+                $temp['link'] = $this->item($item, 'link');
+                $temp['guid'] = $this->item($item, 'id');
+                $temp['pub_date'] = $this->item($item, 'updated');
+                $temp['description'] = $this->item($item, 'content');
+
+                $utc = new DateTimeZone('UTC');
+                $temp['published_at'] = new DateTime($temp['pub_date'], $utc);
+
+                $this->items[] = $temp;
+            }
         }
 
         // Later will need to parse the URL and find the real RSS feed (if the passed in URL is not the real feed).
@@ -62,10 +83,12 @@ class RSS {
         $output = '';
         if(isset($item->{$type})) {
             $temp = (string) $item->{$type};
-            if($type == 'description') {
+            if(in_array($type, ['description', 'content'])) {
                 $config = HTMLPurifier_Config::createDefault();
                 $purifier = new HTMLPurifier($config);
                 $temp = $purifier->purify($temp);
+            } elseif($type == 'link' && isset($item->{$type}->attributes()['href'])) {
+                $temp = (string) $item->{$type}->attributes()['href'];
             } else {
                 $temp = strip_tags($temp);
             }
@@ -78,9 +101,21 @@ class RSS {
 
     public function meta($type) {
         $output = '';
+
         if(isset($this->data->channel->{$type})) {
+            // RSS
             $temp = (string) $this->data->channel->{$type};
             $temp = strip_tags($temp);
+
+            $output = $temp;
+        } elseif(isset($this->data->{$type})) {
+            // Atom
+            if($type == 'link') {
+                $temp = (string) $this->data->{$type}->attributes()['href'];
+            } else {
+                $temp = (string) $this->data->{$type};
+                $temp = strip_tags($temp);
+            }
 
             $output = $temp;
         }

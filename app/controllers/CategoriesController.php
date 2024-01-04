@@ -4,10 +4,10 @@ namespace app\controllers;
 
 use app\models\AutoRating;
 use app\models\Category;
+use app\models\CategoryTag;
 use app\models\Color;
 use app\models\Feed;
 use app\models\Setting;
-use app\models\Tag;
 
 class CategoriesController {
     public function categories($req, $res) {
@@ -25,6 +25,7 @@ class CategoriesController {
         // Need to get the default settings.
         $res->fields['show_tags'] = $settings['show_tags'];
         $res->fields['show_ratings'] = $settings['show_ratings'];
+        $res->fields['show_auto_ratings'] = $settings['show_auto_ratings'];
         $res->fields['show_colors'] = $settings['show_colors'];
         $res->fields['save_ratings'] = $settings['save_ratings'];
 
@@ -36,6 +37,7 @@ class CategoriesController {
             'name' => ['required'],
             'show_tags' => ['boolean'],
             'show_ratings' => ['boolean'],
+            'show_auto_ratings' => ['boolean'],
             'show_colors' => ['boolean'],
             'save_ratings' => ['boolean'],
         ]); 
@@ -43,6 +45,7 @@ class CategoriesController {
         $data = $req->clean($data, [
             'show_tags' => ['boolean'],
             'show_ratings' => ['boolean'],
+            'show_auto_ratings' => ['boolean'],
             'show_colors' => ['boolean'],
             'save_ratings' => ['boolean'],
         ]);
@@ -59,7 +62,7 @@ class CategoriesController {
             'id' => ['required', ['dbOwner' => ['categories', 'id', $req->user_id]]],
         ]);
 
-        Category::delete($val['id']);
+        Category::delete($params['id']);
 
         $res->success('Item successfully deleted.');
 
@@ -73,7 +76,7 @@ class CategoriesController {
         $title = 'Edit Category';
 
         $feeds = Feed::where('category_id', $req->params['id']);
-        $tags = Tag::where('category_id', $req->params['id']);
+        $tags = CategoryTag::tags($req->params['id']);
         $colors = Color::where('category_id', $req->params['id']);
         $ratings = AutoRating::where('category_id', $req->params['id']);
 
@@ -82,6 +85,7 @@ class CategoriesController {
         $res->fields['name'] = $category->data['name'];
         $res->fields['show_tags'] = $category->data['show_tags'];
         $res->fields['show_ratings'] = $category->data['show_ratings'];
+        $res->fields['show_auto_ratings'] = $category->data['show_auto_ratings'];
         $res->fields['show_colors'] = $category->data['show_colors'];
         $res->fields['save_ratings'] = $category->data['save_ratings'];
 
@@ -97,6 +101,7 @@ class CategoriesController {
             'name' => ['required'],
             'show_tags' => ['boolean'],
             'show_ratings' => ['boolean'],
+            'show_auto_ratings' => ['boolean'],
             'show_colors' => ['boolean'],
             'save_ratings' => ['boolean'],
         ]); 
@@ -104,6 +109,7 @@ class CategoriesController {
         $data = $req->clean($data, [
             'show_tags' => ['boolean'],
             'show_ratings' => ['boolean'],
+            'show_auto_ratings' => ['boolean'],
             'show_colors' => ['boolean'],
             'save_ratings' => ['boolean'],
         ]);

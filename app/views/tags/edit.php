@@ -9,7 +9,7 @@
             <main>
                 <div class="page">
                     <h1><?php esc($title); ?></h1>
-                    <p><a href="/category/edit/<?php esc($item->data['category_id']); ?>">&lt; Back</a></p>
+                    <p><a href="/settings">&lt; Back</a></p>
 
                     <?php $res->html->messages(); ?>
                     <form method="POST">

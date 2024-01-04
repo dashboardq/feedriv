@@ -35,38 +35,58 @@ class User extends Model {
         // Create default tags
         $tag = [];
         $tag['user_id'] = $item->id;
-        $tag['name'] = 'Read';
-        DefaultTag::create($tag);
+        $tag['name'] = 'To Read';
+        $tag['default'] = 1;
+        Tag::create($tag);
 
         $tag = [];
         $tag['user_id'] = $item->id;
-        $tag['name'] = 'Reply';
-        DefaultTag::create($tag);
+        $tag['name'] = 'To Reply';
+        $tag['default'] = 1;
+        Tag::create($tag);
 
         // Create default colors
         $color = [];
         $color['user_id'] = $item->id;
         $color['range'] = '1-2';
-        $color['color'] = '#fb9595';
+        $color['color'] = '#ffeeee';
         DefaultColor::create($color);
 
         $color = [];
         $color['user_id'] = $item->id;
         $color['range'] = '2-3';
-        $color['color'] = '#ffff99';
+        $color['color'] = '#ffffee';
         DefaultColor::create($color);
 
         $color = [];
         $color['user_id'] = $item->id;
         $color['range'] = '3-4';
-        $color['color'] = '#ffff99';
+        $color['color'] = '#ffffee';
         DefaultColor::create($color);
 
         $color = [];
         $color['user_id'] = $item->id;
         $color['range'] = '4-5';
-        $color['color'] = '#99ff99';
+        $color['color'] = '#eeffee';
         DefaultColor::create($color);
+
+        // Create a General category
+        $args = [];
+        $args['user_id'] = $item->id;
+        $args['name'] = 'General';
+        $args['show_tags'] = 1;
+        $args['show_ratings'] = 1;
+        $args['show_auto_ratings'] = 1;
+        $args['show_colors'] = 0;
+        $args['save_ratings'] = 1;
+        $category = Category::create($args);
+
+        // Load the agraddy.com RSS feed into the General category
+        $args = [];
+        $args['user_id'] = $item->id;
+        $args['category_id'] = $category->id;
+        $args['original_url'] = 'https://www.agraddy.com/rss';
+        $feed = Feed::create($args);
 
         return $item;
     }
@@ -157,6 +177,8 @@ class User extends Model {
 
             if($user) {
                 if(password_verify($password, $user->data['password'])) {
+                    $user->data['last_login_at'] = now();
+                    $user->save();
 
                     // TODO: Need to make this more robust.
                     unset($user->data['password']);
@@ -180,7 +202,7 @@ class User extends Model {
             $reset = PasswordReset::by([
                 'user_id' => $user_id, 
                 'used' => 0, 
-                'expires_at' => ['>', 'NOW()'],
+                'expires_at' => ['>', (new DateTime())->format('Y-m-d H:i:s')],
             ]);
             if($user && $reset) {
                 // Verify the $token hash matches.

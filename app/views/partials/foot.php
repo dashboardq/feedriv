@@ -3,7 +3,7 @@
                 <h2>Archive All</h2>
                 <p>Are you sure you want to archive all items for the current filters?</p>
                 <div>
-                    <form>
+                    <form id="archive_all_form" action="/ajax/archive" method="POST">
                         <input type="submit" value="Archive All" />
                     </form>
                     <button class="cancel" data-remove="show">Cancel</button>
@@ -17,12 +17,12 @@
                 <h2>Refresh</h2>
                 <p>Reload each of the currently selected feeds.</p>
                 <div>
-                    <form>
-                        <button class="xprocess">Refresh</button>
+                    <form id="refresh_form" action="/ajax/refresh" method="POST">
+                        <button>Refresh</button>
                     </form>
-                    <button class="cancel" data-remove="show">Cancel</button>
+                    <button class="cancel">Cancel</button>
                 </div>
-                <button aria-label="Close" data-remove="show">&times;</button>
+                <button aria-label="Close" class="close">&times;</button>
             </div>
         </div>
 
@@ -42,7 +42,7 @@
             </div>
         </div>
 
-        <div id="processing" class="overlay" hidden>
+        <div id="processing" class="overlay processing" hidden>
             <div class="loading"><span></span></div>
         </div>
 

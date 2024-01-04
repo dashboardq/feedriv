@@ -10,6 +10,7 @@ CREATE TABLE `categories` (
     `name` varchar(255) NOT NULL DEFAULT '',
     `show_tags` tinyint(1) NOT NULL DEFAULT '1',
     `show_ratings` tinyint(1) NOT NULL DEFAULT '1',
+    `show_auto_ratings` tinyint(1) NOT NULL DEFAULT '1',
     `show_colors` tinyint(1) NOT NULL DEFAULT '0',
     `save_ratings` tinyint(1) NOT NULL DEFAULT '1',
     `opened` tinyint(1) NOT NULL DEFAULT '1',

@@ -3,6 +3,10 @@ body {
     line-height: 1.5;
 }
 
+table {
+    table-layout: fixed;
+}
+
 h3 {
     text-transform: uppercase;
     margin-bottom: .5rem;
@@ -139,6 +143,9 @@ h3 {
 .page h1 + p a {
     font-size: 14px;
 }
+.page_blog h1 + p a {
+    font-size: initial;
+}
 .page h2 {
     margin-bottom: 0;
 }
@@ -154,6 +161,12 @@ h3 {
 
 td[data-label=Sort] {
     text-align: center;
+}
+td[data-label=Word] {
+    word-wrap: break-word;
+}
+td[data-label=URL] {
+    word-wrap: break-word;
 }
 
 
@@ -200,6 +213,7 @@ main article {
     box-shadow: 0 6px 14px 0 #0000001a;
 
     padding-bottom: 0;
+    clear: both;
 }
 main article h2 {
     margin-bottom: .5rem;
@@ -426,6 +440,35 @@ button.process:after,
     border: 2px solid #343541;
 }
 
+.pagination {
+    float: right;
+}
+
+ul.cards {
+    display: flex;
+    justify-content: space-between;
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+.card {
+    background: #ffffff;
+    box-shadow: 0 6px 14px 0 #0000001a;
+    margin-top: 0;
+    margin-bottom: 32px;
+    padding: 1rem;
+    flex-basis: 49%;
+}
+.card h2 {
+    margin-bottom: 0;
+}
+.card h3 {
+    text-transform: none;
+}
+.card ul {
+    list-style-type: disc;
+    margin-bottom: 1rem;
+}
 
 @media (min-width: 1200px) {
     td[data-label=Sort] {

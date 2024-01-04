@@ -12,13 +12,12 @@ class Category extends Model {
         $category = parent::create($args);
         $user_id = $category->data['user_id'];
 
-        $default_tags = DefaultTag::where('user_id', $user_id);
-        foreach($default_tags as $default_tag) {
+        $tags = Tag::where(['user_id' => $user_id, 'default' => 1]);
+        foreach($tags as $tag) {
             $args = [];
-            $args['user_id'] = $user_id;
             $args['category_id'] = $category->id;
-            $args['name'] = $default_tag->data['name'];
-            Tag::create($args);
+            $args['tag_id'] = $tag->id;
+            CategoryTag::create($args);
         }
 
         $default_colors = DefaultColor::where('user_id', $user_id);
@@ -34,4 +33,12 @@ class Category extends Model {
         return $category;
     }
 
+    public static function delete($id) {
+        $feeds = Feed::where('category_id', $id);
+        if(count($feeds)) {
+            ao()->response->error('The Category cannot be deleted until the feeds associated with the category have been deleted.');
+        }
+
+        parent::delete($id);
+    }
 }

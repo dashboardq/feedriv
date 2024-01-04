@@ -12,6 +12,7 @@
                     <p><a href="/feeds">&lt; Back</a></p>
 
                     <p><a href="/category/add" class="button">Add Category</a></p>
+                    <?php $res->html->messages(); ?>
                     <table class="draggable" data-action="/ajax/category-sort">
                         <thead>
                             <tr>

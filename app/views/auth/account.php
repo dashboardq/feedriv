@@ -6,8 +6,8 @@
     <body class="<?php $res->pathClass(); ?>">
         <div id="app">
             <?php $res->partial('header'); ?>
-            <main class="page">
-                <section class="box">
+            <main>
+                <section class="page">
                     <h2>Account</h2>
 
                     <?php if(ao()->env('APP_LOGIN_TYPE') == 'db'): ?>

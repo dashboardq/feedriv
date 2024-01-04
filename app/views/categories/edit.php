@@ -18,6 +18,7 @@
                         <div class="field">
                             <?php $res->html->checkbox('Show Tags'); ?>
                             <?php $res->html->checkbox('Show Ratings'); ?>
+                            <?php $res->html->checkbox('Show Auto Ratings'); ?>
                             <?php $res->html->checkbox('Show Colors'); ?>
                             <?php $res->html->checkbox('Save Rating Scores For Training Auto Rating', 'save_ratings'); ?>
                         </div>
@@ -60,27 +61,22 @@
                     </table>
 
                     <h2>Tags</h2>
-                    <p><a href="/tag/add/<?php esc($category->id); ?>" class="button">Add Tag</a></p>
+                    <p><a href="/tag/modify/<?php esc($category->id); ?>" class="button">Modify Tags</a></p>
                     <table>
                         <thead>
                             <tr>
                                 <th>Name</th>
-                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php foreach($tags as $tag): ?>
                             <tr>
                                 <td data-label="Name"><?php esc($tag->data['name']); ?></td>
-                                <td data-label="Action">
-                                    <a href="/tag/edit/<?php esc($tag->id); ?>" class="button">Edit</a>
-                                    <?php $res->html->delete('/tag/delete/' . $tag->id, 'Delete'); ?>
-                                </td>
                             </tr>
                             <?php endforeach; ?>
                             <?php if(count($tags) == 0): ?>
                             <tr>
-                                <td data-label="Status" colspan="3">No tags at this time.</td>
+                                <td data-label="Status" colspan="1">No tags at this time.</td>
                             </tr>
                             <?php endif; ?>
                         </tbody>

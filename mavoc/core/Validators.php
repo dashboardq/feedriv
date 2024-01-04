@@ -17,6 +17,22 @@ class Validators {
         $this->{$name} = $method;
     }
 
+    public function array($input, $field) {
+        if(
+            !isset($input[$field]) 
+            || $input[$field] == ''
+            || is_array($input[$field])
+        ) {
+            return true;
+        }   
+
+        return false;
+    }   
+    public function arrayMessage($input, $field) {
+        $output = 'The ' . $field . ' field needs to be set to true or false.';
+        return $output;
+    }
+
     public function boolean($input, $field) {
         if(
             !isset($input[$field]) 

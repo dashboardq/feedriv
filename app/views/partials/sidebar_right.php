@@ -3,34 +3,46 @@
                 <div class="tags">
                     <h3>Tags</h3>
                     <ul>
-                        <li><a href="#">To Listen</a> (7)</li>
-                        <li><a href="#">To Read</a> (5)</li>
-                        <li><a href="#">To Reply</a> (9)</li>
+                        <?php foreach($tags as $item): ?>
+                        <li>
+                            <a href="<?php url($item['link']); ?>" class="<?php esc($item['class']); ?>"><?php esc($item['label']); ?></a> <span>(<?php esc($item['count']); ?>)</span>
+                            <?php if($item['active']): ?>
+                            <a href="/feeds/clear" class="active">&times;</a>
+                            <?php endif; ?>
+                        </li>
+                        <?php endforeach; ?>
                     </ul>
                 </div>
                 <div class="ratings">
                     <h3>Manual Ratings</h3>
                     <ul>
-                        <li><a href="#">Rated 5</a> (7)</li>
-                        <li><a href="#">Rated 4</a> (5)</li>
-                        <li><a href="#">Rated 3</a> (9)</li>
-                        <li><a href="#">Rated 2</a> (3)</li>
-                        <li><a href="#">Rated 1</a> (11)</li>
+                        <?php foreach($ratings as $item): ?>
+                        <li>
+                            <a href="<?php url($item['link']); ?>" class="<?php esc($item['class']); ?>"><?php esc($item['label']); ?></a> <span>(<?php esc($item['count']); ?>)</span>
+                            <?php if($item['active']): ?>
+                            <a href="/feeds/clear" class="active">&times;</a>
+                            <?php endif; ?>
+                        </li>
+                        <?php endforeach; ?>
                     </ul>
                 </div>
                 <div class="ratings">
                     <h3>Auto Ratings</h3>
                     <ul>
-                        <li><a href="#">Rated 4-5</a> (7)</li>
-                        <li><a href="#">Rated 3-4</a> (5)</li>
-                        <li><a href="#">Rated 2-3</a> (9)</li>
-                        <li><a href="#">Rated 1-2</a> (3)</li>
+                        <?php foreach($auto_ratings as $item): ?>
+                        <li>
+                            <a href="<?php url($item['link']); ?>" class="<?php esc($item['class']); ?>"><?php esc($item['label']); ?></a> <span>(<?php esc($item['count']); ?>)</span>
+                            <?php if($item['active']): ?>
+                            <a href="/feeds/clear" class="active">&times;</a>
+                            <?php endif; ?>
+                        </li>
+                        <?php endforeach; ?>
                     </ul>
                 </div>
                 <div class="archive">
                     <h3>Archived Items</h3>
                     <ul>
-                        <li><a href="#">Archived Items</a> (1,234)</li>
+                        <li><a href="/feeds/archive" class="<?php esc(('/feeds/archive' == $feed_link) ? 'active' : ''); ?>">Archived Items</a>  <span>(<?php esc($archive['count']); ?>)</span></li>
                     </ul>
                 </div>
             </div>

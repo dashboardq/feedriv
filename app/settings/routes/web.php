@@ -60,12 +60,14 @@ Route::post('logout', ['AuthController', 'logout'], 'private');
 
 Route::post('ajax/category-sort', ['AjaxController', 'categorySort'], 'private');
 Route::post('ajax/feed-sort/{category_id}', ['AjaxController', 'feedSort'], 'private');
+Route::post('ajax/sort', ['AjaxController', 'sort'], 'private');
 Route::post('ajax/toggle/{category_id}', ['AjaxController', 'toggle'], 'private');
 
 Route::post('ajax/archive', ['AjaxController', 'archiveAll'], 'private');
 Route::post('ajax/archive/{item_id}', ['AjaxController', 'archive'], 'private');
 Route::post('ajax/rate/{item_id}', ['AjaxController', 'rate'], 'private');
 Route::post('ajax/refresh', ['AjaxController', 'refresh'], 'private');
+Route::post('ajax/refresh/{feed_id}', ['AjaxController', 'refreshFeed'], 'private');
 Route::post('ajax/tag', ['AjaxController', 'tag'], 'private');
 
 
@@ -97,6 +99,7 @@ Route::get('default-color/edit/{id}', ['DefaultColorsController', 'edit'], 'priv
 Route::post('default-color/edit/{id}', ['DefaultColorsController', 'update'], 'private');
 
 
+/*
 Route::get('default-tag/add', ['DefaultTagsController', 'add'], 'private');
 Route::post('default-tag/add', ['DefaultTagsController', 'create'], 'private');
 
@@ -104,6 +107,7 @@ Route::get('default-tag/edit/{id}', ['DefaultTagsController', 'edit'], 'private'
 Route::post('default-tag/edit/{id}', ['DefaultTagsController', 'update'], 'private');
 
 Route::post('default-tag/delete/{id}', ['DefaultTagsController', 'delete'], 'private');
+ */
 
 
 Route::get('feeds', ['FeedsController', 'feeds'], 'private');
@@ -125,6 +129,7 @@ Route::get('feeds/feed/{id}', ['AppController', 'feed'], 'private');
 Route::get('feeds/rated/{rating}', ['AppController', 'rated'], 'private');
 Route::get('feeds/auto/{range}', ['AppController', 'auto'], 'private');
 Route::get('feeds/archive', ['AppController', 'archive'], 'private');
+Route::get('feeds/clear', ['AppController', 'clear'], 'private');
 
 
 Route::get('settings', ['SettingsController', 'settings'], 'private');
@@ -132,13 +137,19 @@ Route::post('settings', ['SettingsController', 'update'], 'private');
 
 
 
-Route::get('tag/add/{category_id}', ['TagsController', 'add'], 'private');
-Route::post('tag/add/{category_id}', ['TagsController', 'create'], 'private');
+Route::get('tag/add', ['TagsController', 'add'], 'private');
+Route::post('tag/add', ['TagsController', 'create'], 'private');
 
 Route::get('tag/edit/{id}', ['TagsController', 'edit'], 'private');
 Route::post('tag/edit/{id}', ['TagsController', 'update'], 'private');
 
 Route::post('tag/delete/{id}', ['TagsController', 'delete'], 'private');
+
+Route::get('tag/modify/{category_id}', ['TagsController', 'modify'], 'private');
+Route::post('tag/modify/{category_id}', ['TagsController', 'modifyPost'], 'private');
+
+Route::get('tag/modify-defaults', ['TagsController', 'modifyDefaults'], 'private');
+Route::post('tag/modify-defaults', ['TagsController', 'modifyDefaultsPost'], 'private');
 
 
 

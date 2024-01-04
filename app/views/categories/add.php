@@ -18,6 +18,7 @@
                         <div class="field">
                             <?php $res->html->checkbox('Show Tags'); ?>
                             <?php $res->html->checkbox('Show Ratings'); ?>
+                            <?php $res->html->checkbox('Show Auto Ratings'); ?>
                             <?php $res->html->checkbox('Show Colors'); ?>
                             <?php $res->html->checkbox('Save Rating Scores For Training Auto Rating', 'save_ratings'); ?>
                         </div>

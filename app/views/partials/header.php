@@ -6,6 +6,7 @@
                     <label for="toggle_menu">Toggle Menu</label>
                     <menu>
                         <li><a href="/">Home</a></li>
+                        <li><a href="/pricing">Pricing</a></li>
                         <li><a href="/blog">Blog</a></li>
                         <?php if($user): ?>
                         <li><a href="/feeds">Feeds</a></li>

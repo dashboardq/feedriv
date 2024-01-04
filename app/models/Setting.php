@@ -16,6 +16,12 @@ class Setting extends Model {
             'value' => 'all',
             'editable' => 0,
         ],
+        'show_auto_ratings' => [
+            'name' => 'Show Auto Ratings',
+            'key' => 'show_auto_ratings',
+            'value' => 1,
+            'editable' => 1,
+        ],
         'show_tags' => [
             'name' => 'Show Tags',
             'key' => 'show_tags',
@@ -40,12 +46,6 @@ class Setting extends Model {
             'value' => 1,
             'editable' => 1,
         ],
-        'sort' => [
-            'name' => 'Sort',
-            'key' => 'sort',
-            'value' => 'date-desc',
-            'editable' => 0,
-        ],
         'timezone' => [
             'name' => 'Timezone',
             'key' => 'timezone',
@@ -59,6 +59,12 @@ class Setting extends Model {
             'value' => '/feeds/all',
             'editable' => 0,
         ],  
+        'feed_sort' => [
+            'name' => 'Feed Sort',
+            'key' => 'feed_sort',
+            'value' => 'date-desc',
+            'editable' => 0,
+        ],
         'feed_type' => [
             'name' => 'Feed Type',
             'key' => 'feed_type',
@@ -69,6 +75,12 @@ class Setting extends Model {
             'name' => 'Feed ID',
             'key' => 'feed_id',
             'value' => '0',
+            'editable' => 0,
+        ],  
+        'feed_filter' => [
+            'name' => 'Feed Filter',
+            'key' => 'feed_filter',
+            'value' => '',
             'editable' => 0,
         ],  
         'filter_link' => [
@@ -83,6 +95,8 @@ class Setting extends Model {
         $output = null;
 
         if(is_array($key)) {
+            // This is now handled in App.php
+            //ao()->once('ao_model_process', 'returnFalse');
             $results = Setting::where('user_id', $user_id, 'data');
             $settings = [];
             foreach($results as $item) {
@@ -100,6 +114,8 @@ class Setting extends Model {
 
             $output = $settings;
         } elseif($key) {
+            // This is now handled in App.php
+            //ao()->once('ao_model_process', 'returnFalse');
             $result = Setting::by(['user_id' => $user_id, 'key' => $key], '', 'data');
 
             if($result) {
@@ -108,6 +124,8 @@ class Setting extends Model {
                 $output = self::$defaults[$key]['value'];
             }
         } else {
+            // This is now handled in App.php
+            //ao()->once('ao_model_process', 'returnFalse');
             $results = Setting::where('user_id', $user_id, 'data');
             $settings = [];
             foreach($results as $item) {

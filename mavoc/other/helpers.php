@@ -1,5 +1,7 @@
 <?php
 
+use mavoc\core\Clean;
+
 if(!function_exists('ao')) {
     function ao() {
         global $ao;
@@ -13,6 +15,18 @@ if(!function_exists('classify')) {
         $words = ucwords($words);
         $output = str_replace(' ', '', $words);
         return $output;
+    }
+}
+
+if(!function_exists('clean')) {
+    function clean($input, $cleaner, $default = null) {
+        if($default) {
+            $clean = new Clean(['field' => $input], ['field' => [[$cleaner => $default]]]);
+        } else {
+            $clean = new Clean(['field' => $input], ['field' => [$cleaner]]);
+        }
+
+        return $clean->fields['field'];
     }
 }
 
@@ -36,12 +50,66 @@ if(!function_exists('dashify')) {
     }
 }
 
-if(!function_exists('dd')) {   
+if(!function_exists('dc')) {
+    function dc($input) {      
+        echo '<pre>'; 
+        print_r($input);       
+        echo '</pre>';         
+    }
+}
+
+if(!function_exists('dd')) {
     function dd($input) {      
         echo '<pre>'; 
         print_r($input);       
         echo '</pre>';         
         die;
+    }
+}
+
+if(!function_exists('debugSql')) {
+    // PDO sends the query and parameters separately to the database.
+    // Sometimes I want to copy and paste the final query directly into the DB but there is no way
+    // to see the final query using PDO. This method simulates the final query. This should only be
+    // used in a debug setting where you are making test database calls.
+    //
+    // This assumes you are using question marks for the parameters.
+    //
+    // The queries output by this function are not safe or properly escaped. This is just to help with debugging.
+    //
+    // TODO: Need to add quotes around any params that are strings.
+    function debugLastSql($args) {
+        $sql = '';
+        if(isset($args[0])) {
+            $sql = $args[0];
+            $params = array_slice($args, 1);
+            if(isset($params[0]) && is_array($params[0])) {
+                $params = $params[0];
+            }
+            $position = strpos($sql, '?');
+            $i = 0;
+            while($position !== false) {
+                $value = $params[$i];
+                if(is_string($value)) {
+                    $sql = substr_replace($sql, "'" . $value . "'", $position, strlen('?'));
+                } else {
+                    $sql = substr_replace($sql, $value, $position, strlen('?'));
+                }
+                $position = strpos($sql, '?');
+                $i++;
+            }
+        }
+
+        // Remove any newlines
+        $sql = preg_replace('/\s*\r\n\s*|\s*\n\s*|\s*\r\s*/', ' ', $sql);
+
+        // Remove whitespace;
+        $sql = trim($sql);
+
+        // Add a final semicolon for easy copying
+        $sql .= ';';
+
+        return $sql;
     }
 }
 
@@ -214,6 +282,18 @@ if(!function_exists('pluralize')) {
         }
     }   
 } 
+
+if(!function_exists('returnFalse')) {
+    function returnFalse() {   
+        return false;
+    }   
+}
+
+if(!function_exists('returnTrue')) {
+    function returnTrue() {   
+        return true;
+    }   
+}
 
 if(!function_exists('underscorify')) {
     function underscorify($input) {

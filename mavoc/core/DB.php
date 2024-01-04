@@ -50,6 +50,8 @@ class DB {
     }
 
     public function call($args, $type = PDO::FETCH_ASSOC) {
+        $args = ao()->hook('ao_db_call_args', $args);
+        $type = ao()->hook('ao_db_call_type', $type);
         $args_count = count($args);
         $output = [];
 
@@ -67,20 +69,56 @@ class DB {
 
             $output = $prepared->fetchAll($type);
 
+            $output = ao()->hook('ao_db_call_output', $output);
             return $output;
         } else {
-            return false;
+            $output = ao()->hook('ao_db_call_output', false);
+            return $output;
         }   
     } 
+
+    // get('field_name', $sql, $values)
+    public function get() {
+        $args = func_get_args();
+        $field = $args[0];
+        $results = DB::call(array_slice($args, 1));
+
+        if(count($results)) {
+            $output = $results[0][$field];
+        } else {
+            $output = '';
+        }
+
+        return $output;
+    }
 
     public function lastInsertId() {
         $output = $this->pdo->lastInsertId();
         return $output;
     }
 
+    // list('field_name', $sql, $values)
+    public function list() {
+        $args = func_get_args();
+        $field = $args[0];
+        $results = DB::call(array_slice($args, 1));
+
+        if(count($results)) {
+            foreach($results as $item) {
+                $output[] = $item[$field];
+            }
+        } else {
+            $output = [];
+        }
+
+        return $output;
+    }
+
     public function query() {
         $args = func_get_args();
+        $args = ao()->hook('ao_db_query_args', $args);
         $output = DB::call($args);
+        $output = ao()->hook('ao_db_query_output', $output);
         return $output;
     }
 }

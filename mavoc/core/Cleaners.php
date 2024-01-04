@@ -16,7 +16,19 @@ class Cleaners {
         $this->{$name} = $method;
     }
 
-    public function boolean($value) {
+    public function array($value, $default = null) {
+        if(!is_array($value)) {
+            if($default !== null) {
+                return $default;
+            } else {
+                $value = [];
+            }
+        }
+
+        return $value;
+    }
+
+    public function boolean($value, $default = null) {
         if(
             $value == 1
             || $value == 'yes' 
@@ -25,22 +37,33 @@ class Cleaners {
         ) {
             return 1;
         } else {
+            if($default !== null) {
+                return $default;
+            }
             return 0;
         }
     }
 
-    public function int($value) {
+    public function int($value, $default = null) {
         // If it is not an integer, set it to 0.
         if(filter_var($value, FILTER_VALIDATE_INT) === false) {
-            return 0;
+            if($default !== null) {
+                return $default;
+            } else {
+                return 0;
+            }
         }
 
         return $value;
     }   
 
-    public function int2($value) {
+    public function int2($value, $default = null) {
         if(!value || !is_numeric($value)) {
-            $value = 0;
+            if($default !== null) {
+                return $default;
+            } else {
+                $value = 0;
+            }
         }
         $output = $value * 100;
         return $output;

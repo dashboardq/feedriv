@@ -32,7 +32,7 @@ class HTML {
         echo $output;
     }
 
-    public function _checkbox($label, $name = '', $value = '', $class = '', $extra = '') {
+    public function _checkbox($label, $name = '', $value = '', $checked = null, $class = '', $extra = '') {
         if(!$name) {
             $name = underscorify($label);
         }
@@ -41,16 +41,22 @@ class HTML {
         }
 
         $checked = '';
-        if(
-            isset($this->session->flash['fields'][$name]) 
-            && $value == $this->session->flash['fields'][$name]
-        ) {
+        if($checked === true || $checked === 1 || $checked === '1') {
             $checked = 'checked ';
-        } elseif(
-            isset($this->res->fields[$name])
-            && $value == $this->res->fields[$name]
-        ) {
-            $checked = 'checked ';
+        } elseif($checked === false || $checked === 0 || $checked === '0') {
+            $checked = ' ';
+        } else {
+            if(
+                isset($this->session->flash['fields'][$name]) 
+                && $value == $this->session->flash['fields'][$name]
+            ) {
+                $checked = 'checked ';
+            } elseif(
+                isset($this->res->fields[$name])
+                && $value == $this->res->fields[$name]
+            ) {
+                $checked = 'checked ';
+            }
         }
 
         $output = '';
@@ -70,8 +76,50 @@ class HTML {
 
         return $output;
     }
-    public function checkbox($label, $name = '', $value = '', $class = '', $extra = '') {
-        $output = $this->_checkbox($label, $name, $value, $class, $extra);
+    public function checkbox($label, $name = '', $value = '', $check = null, $class = '', $extra = '') {
+        $output = $this->_checkbox($label, $name, $value, $check, $class, $extra);
+        echo $output;
+    }
+    public function _checkboxRaw($name, $value = '', $check = null, $class = '', $extra = '') {
+        if($value === '') {
+            $value = 1;
+        }
+
+        $checked = '';
+        if($check === true || $check === 1 || $check === '1') {
+            $checked = 'checked ';
+        } elseif($check === false || $check === 0 || $check === '0') {
+            $checked = ' ';
+        } else {
+            if(
+                isset($this->session->flash['fields'][$name]) 
+                && $value == $this->session->flash['fields'][$name]
+            ) {
+                $checked = 'checked ';
+            } elseif(
+                isset($this->res->fields[$name])
+                && $value == $this->res->fields[$name]
+            ) {
+                $checked = 'checked ';
+            }
+        }
+
+        $output = '';
+        $output .= '<input type="checkbox" name="' . _esc($name) . '" value="' . _esc($value) . '" ';
+        $output .= 'class="' . $class . '" ';
+        $output .= $checked;
+        // Be careful with $extra values - they are not escaped.
+        // Do not use untrusted data.
+        if($extra) {
+            $output .= $extra;
+        }
+        $output .= ' /> ';
+        $output .= "\n";
+
+        return $output;
+    }
+    public function checkboxRaw($name, $value = '', $check = null, $class = '', $extra = '') {
+        $output = $this->_checkboxRaw($name, $value, $check, $class, $extra);
         echo $output;
     }
 
@@ -220,7 +268,7 @@ class HTML {
         echo $output;
     }
 
-    public function _option($name, $label, $value = null) {
+    public function _option($label, $name = null, $value = null, $current_value = null, $class = null, $extra = null) {
         if($value === null) {
             $value = $label;
         }
@@ -230,26 +278,40 @@ class HTML {
             isset($this->session->flash['fields'][$name]) 
             && $value == $this->session->flash['fields'][$name]
         ) {
-            $selected = 'selected ';
+            $selected = ' selected';
         } elseif(
             isset($this->res->fields[$name])
             && $value == $this->res->fields[$name]
         ) {
-            $selected = 'selected ';
+            $selected = ' selected';
+        } elseif(
+            !isset($this->session->flash['fields'][$name]) 
+            && !isset($this->res->fields[$name])
+            && $value == $current_value
+        ) {
+            $selected = ' selected';
         }
 
         $output = '';
-        $output .= '<option value="' . _esc($value) . '" ';
+        $output .= '<option value="' . _esc($value) . '"';
+        if($class) {
+            $output .= ' class="' . $class . '" ';  
+        }
         $output .= $selected;
-        $output .= '> ';
+        // Be careful with $extra values - they are not escaped.
+        // Do not use untrusted data.
+        if($extra) {
+            $output .= ' ' . $extra;
+        }
+        $output .= ' />';
         $output .= _esc($label);
         $output .= '</option>';
         $output .= "\n";
 
         return $output;
     }
-    public function option($name, $label, $value = '') {
-        $output = $this->_option($name, $label, $value);
+    public function option($label, $name = null, $value = null, $current_value = null, $class = null, $extra = null) {
+        $output = $this->_option($label, $name, $value, $current_value, $class, $extra);
         echo $output;
     }
 
@@ -356,19 +418,19 @@ class HTML {
         echo $output;
     }
 
-    public function _select($label, $name = '', $data = []) {
+    public function _select($label, $name = null, $data = [], $current_value = null, $class = null, $extra = null) {
         if(is_array($name)) {
             $data = $name;
-            $name = '';
+            $name = null;
         }
         if(!$name) {
             $name = underscorify($label);
         }
 
         if(isset($this->session->flash['fields'][$name])) {
-            $value = $this->session->flash['fields'][$name];
+            $current_value = $this->session->flash['fields'][$name];
         } elseif(isset($this->res->fields[$name])) {
-            $value = $this->res->fields[$name];
+            $current_value = $this->res->fields[$name];
         }
 
         $error = false;
@@ -390,19 +452,7 @@ class HTML {
             $output .= "\n";
         }
 
-        $output .= '<select name="' . _esc($name) . '">';
-        $output .= "\n";
-
-        foreach($data as $item) {
-            if(isset($item['label'])) {
-                $output .= $this->_option($name, $item['label'], $item['value'] ?? '');
-            } else {
-                $output .= $this->_option($name, $item, $item);
-            }
-        }
-
-        $output .= '</select>';
-        $output .= "\n";
+        $output .= $this->_selectRaw($name, $data, $current_value, $class, $extra);
 
         if($label) {
             $output .= '</div>';
@@ -412,23 +462,62 @@ class HTML {
 
         return $output;
     }
-    public function select($label, $name = '', $data = []) {
-        $output = $this->_select($label, $name, $data);
+    public function select($label, $name = null, $data = [], $value = null, $class = null, $extra = null) {
+        $output = $this->_select($label, $name, $data, $value, $class, $extra);
         echo $output;
     }
 
+    public function _selectRaw($name = '', $data = [], $current_value = null, $class = null, $extra = null) {
+        $error = false;
+        if(isset($this->session->flash['error'][$name])) {
+            $error = true;
+        }
+
+        $output = '';
+        $output .= '<select name="' . _esc($name) . '"';
+        if($class) {
+            $output .= ' class="' . $class . '" ';
+        }
+        // Be careful with $extra values - they are not escaped.
+        // Do not use untrusted data.
+        if($extra) {
+            $output .= ' ' . $extra;
+        }
+        $output .= '>';
+        $output .= "\n";
+
+        foreach($data as $item) {
+            if(isset($item['label'])) {
+                $output .= $this->_option($item['label'], $name, $item['value'] ?? '', $current_value, null, null);
+            } else {
+                $output .= $this->_option($item, $name, $item, $current_value, null, null);
+            }
+        }
+
+        $output .= '</select>';
+        $output .= "\n";
+
+
+        return $output;
+    }
+    public function selectRaw($name = '', $data = [], $current_value = null, $class = null, $extra = null) {
+        $output = $this->_selectRaw($name, $data, $current_value, $class, $extra);
+        echo $output;
+    }
 
     public function _submit($value, $class = '', $extra = '') {
         $output = '';
         $output .= '<div class="field">';
         $output .= "\n";
         $output .= '<input type="submit" ';
-        $output .= 'class="' . $class . '" ';
-        $output .= 'value="' . _esc($value) . '" ';
+        if($class) {
+            $output .= ' class="' . $class . '"';
+        }
+        $output .= ' value="' . _esc($value) . '"';
         // Be careful with $extra values - they are not escaped.
         // Do not use untrusted data.
         if($extra) {
-            $output .= $extra;
+            $output .= ' ' . $extra;
         }
         $output .= ' />';
         $output .= "\n";

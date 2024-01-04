@@ -10,6 +10,7 @@ CREATE TABLE `users` (
     `password` varchar(255) NOT NULL,
     `data` longtext,
     `encrypted` tinyint(1) NOT NULL DEFAULT '0',
+    `last_login_at` timestamp NULL DEFAULT NULL,
     `created_at` timestamp NULL DEFAULT NULL,
     `updated_at` timestamp NULL DEFAULT NULL,
     PRIMARY KEY (`id`)

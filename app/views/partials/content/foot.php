@@ -3,7 +3,7 @@
                 <h2>Clear All</h2>
                 <p>Are you sure you want to archive all items for the current filter?</p>
                 <div>
-                    <form>
+                    <form id="archive_all_form" action="/ajax/archive" method="POST">
                         <input type="submit" value="Archive All" />
                     </form>
                     <button class="cancel">Cancel</button>

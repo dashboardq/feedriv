@@ -115,6 +115,7 @@ class Router {
                         $res->redirect(ao()->env('APP_PRIVATE_HOME'));
                     }
                     if(!$logged_in && isset($restrictions['private'][$route])) {
+                        $req->session->data['login_redirect'] = $req->uri;
                         $res->redirect(ao()->env('APP_PUBLIC_HOME'));
                     }
 

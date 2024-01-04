@@ -20,6 +20,18 @@ class ItemTag extends Model {
         return $item_tag;
     }
 
+
+    public static function ids($item_id) {
+        $output = [];
+
+        $its = ItemTag::where('item_id', $item_id);
+        foreach($its as $it) {
+            $output[] = $it->data['tag_id'];
+        }
+
+        return $output;
+    }
+
     public static function remove($item_id, $tag_id) {
         $args = [];
         $args['item_id'] = $item_id;
@@ -28,6 +40,7 @@ class ItemTag extends Model {
     }
 
     public function tags($item_id, $return_type = 'all') {
+        $output = [];
         $data = ao()->db->query('
             SELECT t.* 
             FROM tags t, items_tags it

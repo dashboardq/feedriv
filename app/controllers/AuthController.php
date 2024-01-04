@@ -80,7 +80,13 @@ class AuthController {
             $res->error('The email and/or password did not match a user in the system.');
         }
 
-        $res->redirect('/account');
+        if(isset($req->session->data['login_redirect']) && $req->session->data['login_redirect']) {
+            $redirect = $req->session->data['login_redirect'];
+            unset($req->session->data['login_redirect']);
+            $res->redirect($redirect);
+        } else {
+            $res->redirect(ao()->env('APP_PRIVATE_HOME'));
+        } 
     }
 
     public function logout($req, $res) {

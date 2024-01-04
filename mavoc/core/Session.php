@@ -40,7 +40,7 @@ class Session {
             } else {
                 $this->user_id = 0;
             }
-        } elseif(ao()->env('DB_USE')) {
+        } elseif(ao()->env('APP_LOGIN_TYPE') == 'db') { 
             if(isset($_SESSION['user_id'])) {
                 $this->user = User::find($_SESSION['user_id']);
                 if($this->user) {

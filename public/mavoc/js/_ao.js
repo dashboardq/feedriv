@@ -134,6 +134,7 @@ window._ao = {};
         var response = {};
         var message;
         var key;
+        var json;
         if(messages instanceof Event) {
             e = messages;
             response = JSON.parse(e.detail.response);
@@ -178,8 +179,28 @@ window._ao = {};
             ao.qs('#message.overlay').classList.add('show');
             ao.qs('#processing.overlay').classList.remove('show');
         } else {
-            content = _ao.esc(messages);
-            content = _ao.nl2br(content);
+            if(_ao.isJSON(messages)) {
+                json = JSON.parse(messages);
+
+                if(json.messages) {
+                    content = '';
+                    i = 0;
+                    for(key in json.messages) {
+                        if(i != 0) {
+                            content += '<br>';
+                        }
+                        content += _ao.esc(json.messages[key]);
+                        i++;
+                    }
+                } else {
+                    content += _ao.esc(messages[key]);
+                    i++;
+                }
+            } else {
+                content = _ao.esc(messages);
+                content = _ao.nl2br(content);
+            }
+
             _ao.dangerousHTML('#message.overlay .content', content);
             if(title) {
                 _ao.text('#message.overlay h2', title);
@@ -218,6 +239,10 @@ window._ao = {};
         return output;
     };
 
+    _ao.reload = function() {
+        window.location.href = window.location.href;
+    };
+
     // https://stackoverflow.com/questions/494143/creating-a-new-dom-element-from-an-html-string-using-built-in-dom-methods-or-pro
     _ao.replaceWith = function($old_el, $new_el) {
         var $tpl;
@@ -233,7 +258,8 @@ window._ao = {};
     }  
 
 
-    _ao.submit = function($form) {
+    _ao.submit = function($form, cb) {
+        console.log('_ao.submit');
         if($form instanceof Event) {
             var e = $form;
             e.preventDefault();
@@ -247,14 +273,26 @@ window._ao = {};
         var action = $form.getAttribute('action');
         var data = new FormData($form);
         var method = $form.getAttribute('method');
+        var $fieldset = $form.querySelector('fieldset');
+        var $button = $form.querySelector('input[type=submit]');
 
         method = method.toUpperCase();
 
-		$form.querySelector('fieldset').disabled = true;
-        ao.qs('.overlay.processing').classList.add('show');
+        if($fieldset) {
+            $fieldset.disabled = true;
+        }
+        //ao.qs('.overlay.processing').classList.add('show');
+
+        if($button) {
+            $button.disabled = true;
+        }
 
         if(method == 'POST') {
-            ao.post(action, data, _ao.responseProcess.bind(_ao, $form));
+            if(cb) {
+                ao.post(action, data, cb);
+            } else {
+                ao.post(action, data, _ao.responseProcess.bind(_ao, $form));
+            }
         }
     };
 
@@ -285,7 +323,14 @@ window._ao = {};
             $form.dispatchEvent(event);
         }
 
-		$form.querySelector('fieldset').disabled = false;
+        var $fieldset = $form.querySelector('fieldset');
+        if($fieldset) {
+            $fieldset.disabled = false;
+        }
+        var $button = $form.querySelector('input[type=submit]');
+        if($button) {
+            $button.disabled = false;
+        }
         ao.qs('.overlay.processing').classList.remove('show');
     };
 
