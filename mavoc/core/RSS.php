@@ -8,6 +8,11 @@ use HTMLPurifier;
 use DateTime;
 use DateTimeZone;
 
+// Note you may need to install php-xml for this to work. Something like:
+// sudo apt install php-xml
+//
+// You may need to update the HTMLPurifier serializer directory so that it can cache files:
+// chmod -R 0777 vendor/ezyang/htmlpurifier/library/HTMLPurifier/DefinitionCache/Serializer
 class RSS {
     public $title = '';
     public $link = '';

@@ -102,7 +102,10 @@ class AuthController {
             ao()->session->logout();
         }
         
-        $res->redirect('/');
+        $redirect = ao()->env('APP_PUBLIC_HOME'); 
+        $redirect = ao()->hook('app_logout_redirect', $redirect);
+      
+        $res->redirect($redirect);  
     }
 
     public function registerPost($req, $res) {

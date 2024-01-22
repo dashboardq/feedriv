@@ -38,7 +38,7 @@ return [
     // PHP session.gc_maxlifetime configuration.
     'APP_SESSION_SECONDS' => 60 * 60 * 24 * 30,
 
-    'APP_PRIVATE_HOME' => '/account',
+    'APP_PRIVATE_HOME' => '/feeds',
     'APP_PUBLIC_HOME' => '/login',
 
     'APP_ANALYTICS' => '<script></script>', 
