@@ -9,7 +9,7 @@ FeedRiv is created by [Anthony Graddy](https://www.agraddy.com) as a part of the
 FeedRiv is a simple RSS feed reader that lets you tag and rate items. I use RSS feed readers to track potential open source jobs so I needed a feed reader that let me tag items that I needed to respond to and would also allow me to rate items so that I could quickly find the jobs that match my skillset.
 
 ## When
-FeedFirv is available now but it has been recently released and should be considered an early beta version. If you would like to request additional features, please open a feature request or if this is a private request, you can submit a new ticket in the DashboardQ Support system. Note that paying customers will receive higher priority.
+FeedRiv is available now but it has been recently released and should be considered an early beta version. If you would like to request additional features, please open a feature request or if this is a private request, you can submit a new ticket in the DashboardQ Support system. Note that paying customers will receive higher priority.
 
 ## Where
 FeedRiv is open source and can be installed on any server that supports modern PHP frameworks. The PHP used is very basic and should work with web hosts that support PHP 7.3 and above. It will probably work with older versions of PHP, but I'm not testing or guaranteeing anything for older versions of PHP.
