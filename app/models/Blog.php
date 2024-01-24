@@ -56,18 +56,26 @@ class Blog {
         return $items;
     }
 
-    public static function get($slug, $draft_key) {
+    public static function get($slug, $draft_key, $date_key) {
         $item = false;
         $dir = ao()->env('AO_MARKDOWN_DIR') . DIRECTORY_SEPARATOR . 'blog';
 
         $show_draft = '';
+        $skip_date_check = false;
 
         if(
             $draft_key 
-            && $draft_key != 'ENTER_A_SECRET_VALUE_TO_VIEW_DRAFTS' 
             && ao()->env('APP_BLOG_DRAFT_KEY') == $draft_key
         ) {
             $show_draft = '_';
+            $skip_date_check = true;
+        }
+
+        if(
+            $date_key 
+            && ao()->env('APP_BLOG_DATE_KEY') == $date_key
+        ) {
+            $skip_date_check = true;
         }
 
         foreach(glob($dir . DIRECTORY_SEPARATOR . $show_draft . '????-??-??_' . $slug . '.md') as $path) {
@@ -83,7 +91,7 @@ class Blog {
                     $date = substr($file, 0, 10);
                 }
 
-                if($date > now()) {
+                if(!$skip_date_check && $date > now()) {
                     break;
                 }
 

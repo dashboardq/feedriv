@@ -45,6 +45,8 @@ return [
 
     // Access draft like this: /blog/draft-slug?draft=KEY_ENTERED_BELOW
     'APP_BLOG_DRAFT_KEY' => 'ENTER_A_SECRET_VALUE_TO_VIEW_DRAFTS', 
+     // Access draft like this: /blog/future-date-slug?date=KEY_ENTERED_BELOW
+    'APP_BLOG_DATE_KEY' => 'ENTER_A_SECRET_VALUE_TO_VIEW_FUTURE_POSTS', 
 
     'APP_KEYS' => $keys, 
 

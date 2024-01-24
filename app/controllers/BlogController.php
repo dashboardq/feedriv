@@ -16,8 +16,9 @@ class BlogController {
     public function post($req, $res) {
         $slug = $req->params['slug'];
         $draft_key = $req->query['draft'] ?? '';
+        $date_key = $req->query['date'] ?? '';
 
-        $item = Blog::get($slug, $draft_key);
+        $item = Blog::get($slug, $draft_key, $date_key);
 
         if(!$item) {
             $res->status(404);
