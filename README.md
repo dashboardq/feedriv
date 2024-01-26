@@ -1,6 +1,20 @@
 # FeedRiv
 
-An open source, MIT licensed feed reader built with a custom PHP MVC backend framework and [TACE](https://www.agraddy.com/introducing-tace) for front end development. It focuses on giving you the tools you need to filter rss feeds and tag feed items. If you would like to use the hosted version, it is available at [FeedRiv - Feed Reader](https://www.feedriv.com).
+An open source, MIT licensed feed reader built with a custom PHP MVC backend framework and [TACE](https://www.agraddy.com/introducing-tace) for front end development. It focuses on giving you the tools you need to filter RSS feeds and tag feed items. If you would like to use the hosted version, it is available at [FeedRiv - Feed Reader](https://www.feedriv.com).
+
+---
+
+## Other DashboardQ Projects
+1\. [MetricRiv](https://www.metricriv.com/)  
+Track your business and marketing metrics: [Launch Post](https://www.agraddy.com/startup-1-numbersq-know-the-state-of-your-business-in-30-seconds) | [Open Source Code](https://github.com/dashboardq/metricriv)  
+
+2\. [TwitRiv](https://twitriv.com/)  
+(*Currently not usable due to Twitter API changes.*) Take control of your Twitter experience : [Launch Post](https://www.agraddy.com/startup-2-twitriv-control-your-twitter-experience) | [Open Source Code](https://github.com/dashboardq/twitriv)
+
+3\. [FeedRiv](https://www.feedriv.com/)  
+A simple RSS feed reader that lets you tag and rate items. [Launch Post](https://www.agraddy.com/startup-3-feedriv-simple-rss-feed-reader) | [Open Source Code](https://github.com/dashboardq/feedriv)  
+
+---
 
 ## Who
 FeedRiv is created by [Anthony Graddy](https://www.agraddy.com) as a part of the [12 Startups in 12 Months (Open Source Edition) challenge](https://www.agraddy.com/12-startups-in-12-months-open-source-edition). This is the 3rd startup of the challenge.
@@ -292,13 +306,4 @@ Yep. All I ask is that if you are marketing a competing service that you not use
 
 That is not a question, but to answer, I hope not. Follow me on my blog ([Anthony Graddy Blog](https://www.agraddy.com/)) or on [Twitter](https://twitter.com/agraddy) and watch me make more terrible business decisions. If nothing else, it should be fun and entertaining!
 
-## Other DashboardQ Projects
-1\. [MetricRiv](https://www.metricriv.com/)  
-Know your metrics: [Launch Post](https://www.agraddy.com/startup-1-numbersq-know-the-state-of-your-business-in-30-seconds) | [Open Source Code](https://github.com/dashboardq/metricriv)  
-
-2\. [TwitRiv](https://twitriv.com/)  
-Take control of your Twitter experience: [Launch Post](https://www.agraddy.com/startup-2-twitriv-control-your-twitter-experience) | [Open Source Code](https://github.com/dashboardq/twitriv)
-
-3\. [FeedRiv](https://www.feedriv.com/)  
-A simple RSS feed reader that lets you tag and rate items.
 
